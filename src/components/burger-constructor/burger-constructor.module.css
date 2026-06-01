@@ -1,7 +1,37 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
   width: 600px;
-  padding-bottom: 20px;
-  color: var(--text-primary-color);
+  padding-left: 16px;
+}
+
+.ingredients {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.fillings {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.fillings_list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style-type: none;
 }

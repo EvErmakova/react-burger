@@ -26,7 +26,7 @@ export const BurgerIngredients = ({ ingredients }) => {
     <section className={styles.burger_ingredients}>
       <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
 
-      <div className={`${styles.wrapper} custom-scroll mt-10 mb-10`}>
+      <div className={`${styles.wrapper} custom-scroll mt-10`}>
         {ingredientsByType.map((tab) => (
           <Fragment key={tab.value}>
             <h2 className="text text_type_main-medium mb-6">{tab.title}</h2>
