@@ -6,14 +6,6 @@
   font-family: 'Jet Brains Mono', serif;
 }
 
-.menu {
-  display: flex;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  list-style-type: none;
-}
-
 .wrapper {
   height: 100%;
   min-height: 200px;
@@ -29,26 +21,10 @@
   list-style-type: none;
 }
 
+.list:not(:last-child) {
+  margin-bottom: 40px;
+}
+
 .item {
-  position: relative;
-  display: flex;
   flex-basis: calc(50% - 12px);
-  flex-direction: column;
-  align-items: center;
-}
-
-.image {
-  display: block;
-  max-width: 100%;
-}
-
-.price {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
-
-.name {
-  min-height: 48px;
 }
