@@ -20,3 +20,7 @@
   margin: 0 auto;
   overflow: hidden;
 }
+
+.error {
+  color: var(--colors-interface-error);
+}
