@@ -1,25 +1,19 @@
 import { useMemo } from 'react';
 
-import { Card } from './components/card/card';
-import { Total } from './components/total/total';
+import Card from './components/card/card';
+import Total from './components/total/total';
 
 import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = ({ ingredients }) => {
-  const selectedBun = useMemo(
-    () => ingredients.find((ingredient) => ingredient.type === 'bun'),
-    [ingredients]
-  );
+  const selectedBun = ingredients.find((ingredient) => ingredient.type === 'bun');
 
   const selectedIngredients = useMemo(
     () => ingredients.filter((ingredient) => ingredient.type !== 'bun'),
     [ingredients]
   );
 
-  const totalPrice = useMemo(
-    () => ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0),
-    [ingredients]
-  );
+  const totalPrice = ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0);
 
   return (
     <section className={styles.burger_constructor}>

@@ -1,8 +1,9 @@
 import { Button, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
+import { memo } from 'react';
 
 import styles from './total.module.css';
 
-export const Total = ({ totalPrice }) => {
+const Total = ({ totalPrice }) => {
   function handleOrderClick() {
     console.log('Оформить заказ');
   }
@@ -19,3 +20,5 @@ export const Total = ({ totalPrice }) => {
     </div>
   );
 };
+
+export default memo(Total);

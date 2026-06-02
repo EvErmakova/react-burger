@@ -1,8 +1,9 @@
 import { Counter, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
+import { memo } from 'react';
 
 import styles from './card.module.css';
 
-export const Card = ({ ingredient }) => {
+const Card = ({ ingredient }) => {
   const { image, name, price, count } = ingredient;
   return (
     <div className={styles.card}>
@@ -16,3 +17,5 @@ export const Card = ({ ingredient }) => {
     </div>
   );
 };
+
+export default memo(Card);

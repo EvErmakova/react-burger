@@ -1,6 +1,6 @@
 import { Fragment, useMemo, useState } from 'react';
 
-import { Card } from './components/card/card';
+import Card from './components/card/card';
 import { Tabs } from './components/tabs/tabs';
 import { INGREDIENT_TABS } from './constants';
 

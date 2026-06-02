@@ -2,10 +2,11 @@ import {
   ConstructorElement,
   DragIcon,
 } from '@krgaa/react-developer-burger-ui-components';
+import { memo } from 'react';
 
 import styles from './card.module.css';
 
-export const Card = ({ ingredient, type }) => {
+const Card = ({ ingredient, type }) => {
   const { name, image, price } = ingredient;
   const isLocked = type === 'top' || type === 'bottom';
   const isDraggable = !isLocked;
@@ -29,3 +30,5 @@ export const Card = ({ ingredient, type }) => {
     </div>
   );
 };
+
+export default memo(Card);
