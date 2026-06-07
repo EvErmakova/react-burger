@@ -1,11 +1,21 @@
 import { Button, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
-import { memo } from 'react';
+import { memo, useState } from 'react';
+
+import { Modal } from '@components/modal/modal';
+import { OrderDetails } from '@components/order-details/order-details';
 
 import styles from './total.module.css';
 
 const Total = ({ totalPrice }) => {
+  const orderNumber = '034536';
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
+
   function handleOrderClick() {
-    console.log('Оформить заказ');
+    setIsOrderOpen(true);
+  }
+
+  function handleCloseOrder() {
+    setIsOrderOpen(false);
   }
 
   return (
@@ -17,6 +27,12 @@ const Total = ({ totalPrice }) => {
       <Button onClick={handleOrderClick} size="large" type="primary">
         Оформить заказ
       </Button>
+
+      {isOrderOpen && (
+        <Modal onClose={handleCloseOrder}>
+          <OrderDetails orderNumber={orderNumber} />
+        </Modal>
+      )}
     </div>
   );
 };
