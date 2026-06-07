@@ -1,5 +1,5 @@
 import { Button, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 import { Modal } from '@components/modal/modal';
 import { OrderDetails } from '@components/order-details/order-details';
@@ -14,9 +14,9 @@ const Total = ({ totalPrice }) => {
     setIsOrderOpen(true);
   }
 
-  function handleCloseOrder() {
+  const handleCloseOrder = useCallback(() => {
     setIsOrderOpen(false);
-  }
+  }, []);
 
   return (
     <div className={styles.total}>

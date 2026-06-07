@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useCallback, useMemo, useState } from 'react';
 
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { Modal } from '@components/modal/modal';
@@ -26,13 +26,13 @@ export const BurgerIngredients = ({ ingredients }) => {
     setActiveTab(tab);
   }
 
-  function handleCardClick(ingredient) {
+  const handleCardClick = useCallback((ingredient) => {
     setSelectedIngredient(ingredient);
-  }
+  }, []);
 
-  function handleCloseModal() {
+  const handleCloseModal = useCallback(() => {
     setSelectedIngredient(null);
-  }
+  }, []);
 
   return (
     <section className={styles.burger_ingredients}>
