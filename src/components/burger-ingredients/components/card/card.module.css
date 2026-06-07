@@ -3,7 +3,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0;
+  color: inherit;
+  font: inherit;
   text-align: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--common-transition);
+}
+
+.card:hover {
+  opacity: 0.7;
 }
 
 .image {

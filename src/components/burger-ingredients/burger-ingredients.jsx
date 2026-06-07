@@ -1,5 +1,8 @@
 import { Fragment, useMemo, useState } from 'react';
 
+import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
+import { Modal } from '@components/modal/modal';
+
 import Card from './components/card/card';
 import { Tabs } from './components/tabs/tabs';
 import { INGREDIENT_TABS } from './constants';
@@ -8,6 +11,7 @@ import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = ({ ingredients }) => {
   const [activeTab, setActiveTab] = useState(INGREDIENT_TABS[0].value);
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
 
   const ingredientsByType = useMemo(
     () =>
@@ -22,6 +26,14 @@ export const BurgerIngredients = ({ ingredients }) => {
     setActiveTab(tab);
   }
 
+  function handleCardClick(ingredient) {
+    setSelectedIngredient(ingredient);
+  }
+
+  function handleCloseModal() {
+    setSelectedIngredient(null);
+  }
+
   return (
     <section className={styles.burger_ingredients}>
       <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
@@ -33,13 +45,19 @@ export const BurgerIngredients = ({ ingredients }) => {
             <ul className={styles.list}>
               {tab.ingredients.map((ingredient) => (
                 <li key={ingredient._id} className={styles.item}>
-                  <Card ingredient={ingredient} />
+                  <Card ingredient={ingredient} onClick={handleCardClick} />
                 </li>
               ))}
             </ul>
           </Fragment>
         ))}
       </div>
+
+      {selectedIngredient && (
+        <Modal title="Детали ингредиента" onClose={handleCloseModal}>
+          <IngredientDetails ingredient={selectedIngredient} />
+        </Modal>
+      )}
     </section>
   );
 };
