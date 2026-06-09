@@ -1,43 +1,63 @@
-import { Tab } from '@krgaa/react-developer-burger-ui-components';
+import { Fragment, useCallback, useMemo, useState } from 'react';
+
+import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
+import { Modal } from '@components/modal/modal';
+
+import Card from './components/card/card';
+import { Tabs } from './components/tabs/tabs';
+import { INGREDIENT_TABS } from './constants';
 
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = ({ ingredients }) => {
-  console.log(ingredients);
+  const [activeTab, setActiveTab] = useState(INGREDIENT_TABS[0].value);
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
+
+  const ingredientsByType = useMemo(
+    () =>
+      INGREDIENT_TABS.map((tab) => ({
+        ...tab,
+        ingredients: ingredients.filter((ingredient) => ingredient.type === tab.value),
+      })),
+    [ingredients]
+  );
+
+  function handleTabChange(tab) {
+    setActiveTab(tab);
+  }
+
+  const handleCardClick = useCallback((ingredient) => {
+    setSelectedIngredient(ingredient);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setSelectedIngredient(null);
+  }, []);
 
   return (
     <section className={styles.burger_ingredients}>
-      <nav>
-        <ul className={styles.menu}>
-          <Tab
-            value="bun"
-            active={true}
-            onClick={() => {
-              /* TODO */
-            }}
-          >
-            Булки
-          </Tab>
-          <Tab
-            value="main"
-            active={false}
-            onClick={() => {
-              /* TODO */
-            }}
-          >
-            Начинки
-          </Tab>
-          <Tab
-            value="sauce"
-            active={false}
-            onClick={() => {
-              /* TODO */
-            }}
-          >
-            Соусы
-          </Tab>
-        </ul>
-      </nav>
+      <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
+
+      <div className={`${styles.wrapper} custom-scroll mt-10`}>
+        {ingredientsByType.map((tab) => (
+          <Fragment key={tab.value}>
+            <h2 className="text text_type_main-medium mb-6">{tab.title}</h2>
+            <ul className={styles.list}>
+              {tab.ingredients.map((ingredient) => (
+                <li key={ingredient._id} className={styles.item}>
+                  <Card ingredient={ingredient} onClick={handleCardClick} />
+                </li>
+              ))}
+            </ul>
+          </Fragment>
+        ))}
+      </div>
+
+      {selectedIngredient && (
+        <Modal title="Детали ингредиента" onClose={handleCloseModal}>
+          <IngredientDetails ingredient={selectedIngredient} />
+        </Modal>
+      )}
     </section>
   );
 };

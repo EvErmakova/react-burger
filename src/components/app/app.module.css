@@ -2,8 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  color: var(--text-primary-color);
-  background-color: var(--background-alt);
+  min-height: 700px;
 }
 
 .title {
@@ -20,4 +19,8 @@
   height: 100%;
   margin: 0 auto;
   overflow: hidden;
+}
+
+.error {
+  color: var(--colors-interface-error);
 }

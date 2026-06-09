@@ -2,14 +2,27 @@
   display: flex;
   flex-direction: column;
   max-width: 600px;
-  color: var(--text-primary-color);
-  font-family: 'Jet Brains Mono', serif;
 }
 
-.menu {
+.wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.list {
   display: flex;
+  flex-wrap: wrap;
+  gap: 32px 24px;
   margin: 0;
-  padding: 0;
-  text-align: center;
+  padding: 0 16px;
   list-style-type: none;
+}
+
+.list:not(:last-child) {
+  margin-bottom: 40px;
+}
+
+.item {
+  flex-basis: calc(50% - 12px);
 }
