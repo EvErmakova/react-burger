@@ -55,8 +55,6 @@ export const burgerConstructorSlice = createSlice({
   },
 });
 
-export const burgerConstructorReducer = burgerConstructorSlice.reducer;
-
 export const { addIngredient, removeIngredient, moveIngredient, clearConstructor } =
   burgerConstructorSlice.actions;
 

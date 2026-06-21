@@ -1,13 +1,13 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineSlices } from '@reduxjs/toolkit';
 
-import { burgerConstructorReducer } from './burger-constructor/slice';
-import { ingredientDetailsReducer } from './ingredient-details/slice';
-import { ingredientsReducer } from './ingredients/slice';
-import { orderReducer } from './order/slice';
+import { burgerConstructorSlice } from './burger-constructor/slice';
+import { ingredientDetailsSlice } from './ingredient-details/slice';
+import { ingredientsSlice } from './ingredients/slice';
+import { orderSlice } from './order/slice';
 
-export const rootReducer = combineReducers({
-  ingredients: ingredientsReducer,
-  burgerConstructor: burgerConstructorReducer,
-  ingredientDetails: ingredientDetailsReducer,
-  order: orderReducer,
-});
+export const rootReducer = combineSlices(
+  ingredientsSlice,
+  burgerConstructorSlice,
+  ingredientDetailsSlice,
+  orderSlice
+);

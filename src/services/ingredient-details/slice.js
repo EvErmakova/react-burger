@@ -20,8 +20,6 @@ export const ingredientDetailsSlice = createSlice({
   },
 });
 
-export const ingredientDetailsReducer = ingredientDetailsSlice.reducer;
-
 export const { setIngredient, clearIngredient } = ingredientDetailsSlice.actions;
 
 export const { selectIngredientDetails } = ingredientDetailsSlice.selectors;

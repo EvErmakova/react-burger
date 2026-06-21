@@ -38,8 +38,6 @@ export const orderSlice = createSlice({
   },
 });
 
-export const orderReducer = orderSlice.reducer;
-
 export const { clearOrder } = orderSlice.actions;
 
 export const { selectOrderNumber, selectOrderLoading, selectOrderError } =
