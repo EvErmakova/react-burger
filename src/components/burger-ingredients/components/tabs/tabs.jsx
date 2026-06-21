@@ -1,6 +1,6 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 
-import { INGREDIENT_TABS } from '../../constants';
+import { INGREDIENT_TABS } from '@utils/constants';
 
 import styles from './tabs.module.css';
 

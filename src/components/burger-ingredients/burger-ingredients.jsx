@@ -6,10 +6,10 @@ import { Modal } from '@components/modal/modal';
 import { useModal } from '@hooks/use-modal';
 import { clearIngredient, setIngredient } from '@services/ingredient-details/slice';
 import { selectIngredients } from '@services/ingredients/slice';
+import { INGREDIENT_TABS } from '@utils/constants';
 
 import Card from './components/card/card';
 import { Tabs } from './components/tabs/tabs';
-import { INGREDIENT_TABS } from './constants';
 import { getClosestTab, scrollToHeading } from './helpers';
 
 import styles from './burger-ingredients.module.css';

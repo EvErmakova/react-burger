@@ -23,7 +23,7 @@ const Total = () => {
 
   const totalPrice = useMemo(
     () =>
-      (selectedBun ? selectedBun.price : 0) +
+      (selectedBun ? selectedBun.price * 2 : 0) +
       selectedFillings.reduce((sum, ingredient) => sum + ingredient.price, 0),
     [selectedBun, selectedFillings]
   );

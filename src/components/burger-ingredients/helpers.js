@@ -1,4 +1,4 @@
-import { INGREDIENT_TABS } from './constants';
+import { INGREDIENT_TABS } from '@utils/constants';
 
 const getTopOffset = (element, container) =>
   element.getBoundingClientRect().top - container.getBoundingClientRect().top;
