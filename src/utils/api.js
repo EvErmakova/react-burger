@@ -19,3 +19,14 @@ export const getIngredients = () =>
     .then(checkResponse)
     .then(checkSuccess)
     .then((data) => data.data);
+
+export const createOrder = (ingredientIds) =>
+  fetch(`${BASE_URL}/orders`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ingredients: ingredientIds }),
+  })
+    .then(checkResponse)
+    .then(checkSuccess);

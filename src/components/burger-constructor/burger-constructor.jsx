@@ -15,6 +15,18 @@ export const BurgerConstructor = ({ ingredients }) => {
 
   const totalPrice = ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0);
 
+  const orderIngredients = useMemo(
+    () =>
+      selectedBun
+        ? [
+            selectedBun._id,
+            ...selectedIngredients.map((ingredient) => ingredient._id),
+            selectedBun._id,
+          ]
+        : [],
+    [selectedBun, selectedIngredients]
+  );
+
   return (
     <section className={styles.burger_constructor}>
       <ul className={styles.ingredients}>
@@ -35,7 +47,7 @@ export const BurgerConstructor = ({ ingredients }) => {
         </li>
       </ul>
 
-      <Total totalPrice={totalPrice} />
+      <Total totalPrice={totalPrice} orderIngredients={orderIngredients} />
     </section>
   );
 };
