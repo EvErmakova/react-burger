@@ -1,27 +1,28 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
-import { getIngredients } from '@utils/api';
+import { fetchIngredients } from '@services/ingredients/actions';
+import {
+  selectIngredients,
+  selectIngredientsError,
+  selectIngredientsLoading,
+} from '@services/ingredients/slice';
 
 import styles from './app.module.css';
 
 export const App = () => {
-  const [ingredients, setIngredients] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const ingredients = useSelector(selectIngredients);
+  const isLoading = useSelector(selectIngredientsLoading);
+  const error = useSelector(selectIngredientsError);
 
   useEffect(() => {
-    setIsLoading(true);
-    setError(null);
-
-    getIngredients()
-      .then(setIngredients)
-      .catch((err) => setError(err.message))
-      .finally(() => setIsLoading(false));
-  }, []);
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
