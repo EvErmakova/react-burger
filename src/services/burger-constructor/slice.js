@@ -1,9 +1,23 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 
-const initialState = {
+import { DEFAULT_INGREDIENTS } from '@components/burger-constructor/constants';
+
+const emptyState = {
   bun: null,
   fillings: [],
 };
+
+const initialState = DEFAULT_INGREDIENTS.reduce(
+  (state, ingredient) => {
+    if (ingredient.type === 'bun') {
+      state.bun = ingredient;
+    } else {
+      state.fillings.push({ ...ingredient, uniqueId: nanoid() });
+    }
+    return state;
+  },
+  { bun: null, fillings: [] }
+);
 
 export const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
@@ -26,11 +40,18 @@ export const burgerConstructorSlice = createSlice({
         (ingredient) => ingredient.uniqueId !== action.payload
       );
     },
-    clearConstructor: () => initialState,
+    clearConstructor: () => emptyState,
   },
   selectors: {
     selectConstructorBun: (state) => state.bun,
     selectConstructorFillings: (state) => state.fillings,
+    selectIngredientCount: (state, id) => {
+      const bunCount = state.bun?._id === id ? 1 : 0;
+      const fillingsCount = state.fillings.filter(
+        (ingredient) => ingredient._id === id
+      ).length;
+      return bunCount + fillingsCount;
+    },
   },
 });
 
@@ -39,5 +60,5 @@ export const burgerConstructorReducer = burgerConstructorSlice.reducer;
 export const { addIngredient, removeIngredient, clearConstructor } =
   burgerConstructorSlice.actions;
 
-export const { selectConstructorBun, selectConstructorFillings } =
+export const { selectConstructorBun, selectConstructorFillings, selectIngredientCount } =
   burgerConstructorSlice.selectors;

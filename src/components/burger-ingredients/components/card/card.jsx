@@ -1,10 +1,15 @@
 import { Counter, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 import { memo } from 'react';
+import { useSelector } from 'react-redux';
+
+import { selectIngredientCount } from '@services/burger-constructor/slice';
 
 import styles from './card.module.css';
 
 const Card = ({ ingredient, onClick }) => {
-  const { image, name, price, count } = ingredient;
+  const { image, name, price } = ingredient;
+  const count = useSelector((state) => selectIngredientCount(state, ingredient._id));
+
   return (
     <button type="button" className={styles.card} onClick={() => onClick(ingredient)}>
       <img src={image} className={`${styles.image} ml-4 mr-4 mb-2`} alt={name} />
