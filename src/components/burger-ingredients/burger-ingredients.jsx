@@ -1,7 +1,10 @@
 import { Fragment, useCallback, useMemo, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { Modal } from '@components/modal/modal';
+import { useModal } from '@hooks/use-modal';
+import { clearIngredient, setIngredient } from '@services/ingredient-details/slice';
 
 import Card from './components/card/card';
 import { Tabs } from './components/tabs/tabs';
@@ -11,8 +14,10 @@ import { getClosestTab, scrollToHeading } from './helpers';
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = ({ ingredients }) => {
+  const dispatch = useDispatch();
+  const { isModalOpen, openModal, closeModal } = useModal();
+
   const [activeTab, setActiveTab] = useState(INGREDIENT_TABS[0].value);
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
 
   const containerRef = useRef(null);
   const headingRefs = useRef({});
@@ -37,13 +42,18 @@ export const BurgerIngredients = ({ ingredients }) => {
     }
   }
 
-  const handleCardClick = useCallback((ingredient) => {
-    setSelectedIngredient(ingredient);
-  }, []);
+  const handleCardClick = useCallback(
+    (ingredient) => {
+      dispatch(setIngredient(ingredient));
+      openModal();
+    },
+    [dispatch, openModal]
+  );
 
   const handleCloseModal = useCallback(() => {
-    setSelectedIngredient(null);
-  }, []);
+    dispatch(clearIngredient());
+    closeModal();
+  }, [dispatch, closeModal]);
 
   return (
     <section className={styles.burger_ingredients}>
@@ -75,9 +85,9 @@ export const BurgerIngredients = ({ ingredients }) => {
         ))}
       </div>
 
-      {selectedIngredient && (
+      {isModalOpen && (
         <Modal title="Детали ингредиента" onClose={handleCloseModal}>
-          <IngredientDetails ingredient={selectedIngredient} />
+          <IngredientDetails />
         </Modal>
       )}
     </section>

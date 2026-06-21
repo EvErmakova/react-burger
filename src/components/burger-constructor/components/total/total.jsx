@@ -1,22 +1,15 @@
 import { Button, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
-import { memo, useCallback, useState } from 'react';
+import { memo } from 'react';
 
 import { Modal } from '@components/modal/modal';
 import { OrderDetails } from '@components/order-details/order-details';
+import { useModal } from '@hooks/use-modal';
 
 import styles from './total.module.css';
 
 const Total = ({ totalPrice }) => {
   const orderNumber = '034536';
-  const [isOrderOpen, setIsOrderOpen] = useState(false);
-
-  function handleOrderClick() {
-    setIsOrderOpen(true);
-  }
-
-  const handleCloseOrder = useCallback(() => {
-    setIsOrderOpen(false);
-  }, []);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
     <div className={styles.total}>
@@ -24,12 +17,12 @@ const Total = ({ totalPrice }) => {
         {totalPrice}
         <CurrencyIcon type="primary" className={styles.currency_icon} />
       </p>
-      <Button onClick={handleOrderClick} size="large" type="primary">
+      <Button onClick={openModal} size="large" type="primary">
         Оформить заказ
       </Button>
 
-      {isOrderOpen && (
-        <Modal onClose={handleCloseOrder}>
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
           <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}

@@ -1,8 +1,18 @@
+import { useSelector } from 'react-redux';
+
+import { selectIngredientDetails } from '@services/ingredient-details/slice';
+
 import { NUTRITION } from './constants';
 
 import styles from './ingredient-details.module.css';
 
-export const IngredientDetails = ({ ingredient }) => {
+export const IngredientDetails = () => {
+  const ingredient = useSelector(selectIngredientDetails);
+
+  if (!ingredient) {
+    return null;
+  }
+
   const { image_large, name } = ingredient;
 
   return (
