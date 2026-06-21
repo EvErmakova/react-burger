@@ -3,15 +3,20 @@ import {
   DragIcon,
 } from '@krgaa/react-developer-burger-ui-components';
 import { memo } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { removeIngredient } from '@services/burger-constructor/slice';
 
 import styles from './card.module.css';
 
 const Card = ({ ingredient, type }) => {
+  const dispatch = useDispatch();
+
   if (!ingredient) {
     return null;
   }
 
-  const { name, image, price } = ingredient;
+  const { name, image, price, uniqueId } = ingredient;
   const isLocked = type === 'top' || type === 'bottom';
   const isDraggable = !isLocked;
 
@@ -20,6 +25,8 @@ const Card = ({ ingredient, type }) => {
     if (type === 'bottom') return `${name} (низ)`;
     return name;
   }
+
+  const handleClose = () => dispatch(removeIngredient(uniqueId));
 
   return (
     <div className={isDraggable ? styles.card_draggable : 'ml-8'}>
@@ -30,6 +37,7 @@ const Card = ({ ingredient, type }) => {
         thumbnail={image}
         price={price}
         isLocked={isLocked}
+        handleClose={isDraggable ? handleClose : undefined}
       />
     </div>
   );
