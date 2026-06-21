@@ -7,7 +7,6 @@ import { BurgerConstructor } from '@components/burger-constructor/burger-constru
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 import { fetchIngredients } from '@services/ingredients/actions';
 import {
-  selectIngredients,
   selectIngredientsError,
   selectIngredientsLoading,
 } from '@services/ingredients/slice';
@@ -16,7 +15,6 @@ import styles from './app.module.css';
 
 export const App = () => {
   const dispatch = useDispatch();
-  const ingredients = useSelector(selectIngredients);
   const isLoading = useSelector(selectIngredientsLoading);
   const error = useSelector(selectIngredientsError);
 
@@ -38,8 +36,8 @@ export const App = () => {
       )}
       {!isLoading && !error && (
         <main className={`${styles.main} pl-5 pr-5 pb-10`}>
-          <BurgerIngredients ingredients={ingredients} />
-          <BurgerConstructor ingredients={ingredients} />
+          <BurgerIngredients />
+          <BurgerConstructor />
         </main>
       )}
     </div>

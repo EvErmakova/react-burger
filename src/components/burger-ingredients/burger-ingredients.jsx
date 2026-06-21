@@ -1,10 +1,11 @@
 import { Fragment, useCallback, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { Modal } from '@components/modal/modal';
 import { useModal } from '@hooks/use-modal';
 import { clearIngredient, setIngredient } from '@services/ingredient-details/slice';
+import { selectIngredients } from '@services/ingredients/slice';
 
 import Card from './components/card/card';
 import { Tabs } from './components/tabs/tabs';
@@ -13,8 +14,9 @@ import { getClosestTab, scrollToHeading } from './helpers';
 
 import styles from './burger-ingredients.module.css';
 
-export const BurgerIngredients = ({ ingredients }) => {
+export const BurgerIngredients = () => {
   const dispatch = useDispatch();
+  const ingredients = useSelector(selectIngredients);
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const [activeTab, setActiveTab] = useState(INGREDIENT_TABS[0].value);

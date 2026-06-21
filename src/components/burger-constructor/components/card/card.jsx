@@ -7,6 +7,10 @@ import { memo } from 'react';
 import styles from './card.module.css';
 
 const Card = ({ ingredient, type }) => {
+  if (!ingredient) {
+    return null;
+  }
+
   const { name, image, price } = ingredient;
   const isLocked = type === 'top' || type === 'bottom';
   const isDraggable = !isLocked;
