@@ -46,9 +46,9 @@ export const BurgerConstructor = () => {
         <li className={styles.fillings}>
           {selectedFillings.length > 0 ? (
             <ul className={`${styles.fillings_list} custom-scroll`}>
-              {selectedFillings.map((ingredient) => (
+              {selectedFillings.map((ingredient, index) => (
                 <li key={ingredient.uniqueId}>
-                  <Card ingredient={ingredient} />
+                  <Card ingredient={ingredient} index={index} />
                 </li>
               ))}
             </ul>

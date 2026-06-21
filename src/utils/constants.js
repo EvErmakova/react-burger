@@ -2,6 +2,7 @@ export const BASE_URL = 'https://new-stellarburgers.education-services.ru/api';
 
 export const DND_TYPES = {
   INGREDIENT: 'ingredient',
+  CONSTRUCTOR_INGREDIENT: 'constructor-ingredient',
 };
 
 export const INGREDIENT_TYPES = {

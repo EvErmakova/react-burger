@@ -26,6 +26,23 @@ export const burgerConstructorSlice = createSlice({
         (ingredient) => ingredient.uniqueId !== action.payload
       );
     },
+    moveIngredient: (state, action) => {
+      const { fromIndex, toIndex } = action.payload;
+
+      if (fromIndex === toIndex) return;
+
+      const movedIngredient = state.fillings[fromIndex];
+      const restIngredients = state.fillings.filter((_, index) => index !== fromIndex);
+
+      return {
+        ...state,
+        fillings: [
+          ...restIngredients.slice(0, toIndex),
+          movedIngredient,
+          ...restIngredients.slice(toIndex),
+        ],
+      };
+    },
     clearConstructor: () => initialState,
   },
   selectors: {
@@ -43,7 +60,7 @@ export const burgerConstructorSlice = createSlice({
 
 export const burgerConstructorReducer = burgerConstructorSlice.reducer;
 
-export const { addIngredient, removeIngredient, clearConstructor } =
+export const { addIngredient, removeIngredient, moveIngredient, clearConstructor } =
   burgerConstructorSlice.actions;
 
 export const { selectConstructorBun, selectConstructorFillings, selectIngredientCount } =
