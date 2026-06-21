@@ -32,16 +32,13 @@ export const burgerConstructorSlice = createSlice({
       if (fromIndex === toIndex) return;
 
       const movedIngredient = state.fillings[fromIndex];
-      const restIngredients = state.fillings.filter((_, index) => index !== fromIndex);
 
-      return {
-        ...state,
-        fillings: [
-          ...restIngredients.slice(0, toIndex),
-          movedIngredient,
-          ...restIngredients.slice(toIndex),
-        ],
-      };
+      if (movedIngredient) {
+        const newFillings = [...state.fillings];
+        newFillings.splice(fromIndex, 1);
+        newFillings.splice(toIndex, 0, movedIngredient);
+        state.fillings = newFillings;
+      }
     },
     clearConstructor: () => initialState,
   },

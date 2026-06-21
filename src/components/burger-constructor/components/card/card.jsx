@@ -29,8 +29,11 @@ const Card = ({ ingredient, index, type }) => {
 
   const [, dropRef] = useDrop({
     accept: DND_TYPES.CONSTRUCTOR_INGREDIENT,
-    drop: (ingredient) =>
-      dispatch(moveIngredient({ fromIndex: ingredient.index, toIndex: index })),
+    hover: (ingredient) => {
+      dispatch(moveIngredient({ fromIndex: ingredient.index, toIndex: index }));
+
+      ingredient.index = index;
+    },
   });
 
   if (isDraggable) {
