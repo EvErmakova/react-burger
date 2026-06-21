@@ -1,4 +1,4 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSelector, createSlice, nanoid } from '@reduxjs/toolkit';
 
 const initialState = {
   bun: null,
@@ -43,20 +43,48 @@ export const burgerConstructorSlice = createSlice({
     clearConstructor: () => initialState,
   },
   selectors: {
-    selectConstructorBun: (state) => state.bun,
-    selectConstructorFillings: (state) => state.fillings,
-    selectIngredientCount: (state, id) => {
-      const bunCount = state.bun?._id === id ? 2 : 0;
-      const fillingsCount = state.fillings.filter(
-        (ingredient) => ingredient._id === id
-      ).length;
-      return bunCount + fillingsCount;
-    },
+    getConstructorBun: (state) => state.bun,
+    getConstructorFillings: (state) => state.fillings,
+    getIngredientCount: createSelector(
+      (state) => state.bun,
+      (state) => state.fillings,
+      (_state, id) => id,
+      (bun, fillings, id) => {
+        const bunCount = bun?._id === id ? 2 : 0;
+        const fillingsCount = fillings.filter(
+          (ingredient) => ingredient._id === id
+        ).length;
+        return bunCount + fillingsCount;
+      }
+    ),
+    getTotalPrice: createSelector(
+      (state) => state.bun,
+      (state) => state.fillings,
+      (bun, fillings) => {
+        const bunPrice = bun ? bun.price * 2 : 0;
+        const fillingsPrice = fillings.reduce(
+          (sum, ingredient) => sum + ingredient.price,
+          0
+        );
+        return bunPrice + fillingsPrice;
+      }
+    ),
+    getOrderIngredients: createSelector(
+      (state) => state.bun,
+      (state) => state.fillings,
+      (bun, fillings) =>
+        bun ? [bun._id, ...fillings.map((ingredient) => ingredient._id), bun._id] : []
+    ),
   },
 });
 
 export const { addIngredient, removeIngredient, moveIngredient, clearConstructor } =
   burgerConstructorSlice.actions;
 
-export const { selectConstructorBun, selectConstructorFillings, selectIngredientCount } =
-  burgerConstructorSlice.selectors;
+export const {
+  getConstructorBun,
+  getConstructorFillings,
+  getIngredientCount,
+  getTotalPrice,
+  getOrderIngredients,
+} = burgerConstructorSlice.selectors;

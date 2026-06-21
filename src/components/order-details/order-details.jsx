@@ -1,18 +1,14 @@
 import { CheckMarkIcon, Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 
-import {
-  selectOrderError,
-  selectOrderLoading,
-  selectOrderNumber,
-} from '@services/order/slice';
+import { getOrderError, getOrderLoading, getOrderNumber } from '@services/order/slice';
 
 import styles from './order-details.module.css';
 
 export const OrderDetails = () => {
-  const orderNumber = useSelector(selectOrderNumber);
-  const isLoading = useSelector(selectOrderLoading);
-  const error = useSelector(selectOrderError);
+  const orderNumber = useSelector(getOrderNumber);
+  const isLoading = useSelector(getOrderLoading);
+  const error = useSelector(getOrderError);
 
   if (isLoading) {
     return <Preloader />;

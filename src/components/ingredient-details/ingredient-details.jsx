@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux';
 
-import { selectIngredientDetails } from '@services/ingredient-details/slice';
+import { getIngredient } from '@services/ingredient-details/slice';
 
 import { NUTRITION } from './constants';
 
 import styles from './ingredient-details.module.css';
 
 export const IngredientDetails = () => {
-  const ingredient = useSelector(selectIngredientDetails);
+  const ingredient = useSelector(getIngredient);
 
   if (!ingredient) {
     return null;

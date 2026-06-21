@@ -3,14 +3,14 @@ import { memo } from 'react';
 import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
 
-import { selectIngredientCount } from '@services/burger-constructor/slice';
+import { getIngredientCount } from '@services/burger-constructor/slice';
 import { DND_TYPES } from '@utils/constants';
 
 import styles from './card.module.css';
 
 const Card = ({ ingredient, onClick }) => {
   const { image, name, price } = ingredient;
-  const count = useSelector((state) => selectIngredientCount(state, ingredient._id));
+  const count = useSelector((state) => getIngredientCount(state, ingredient._id));
 
   const [{ isDragging }, dragRef] = useDrag({
     type: DND_TYPES.INGREDIENT,

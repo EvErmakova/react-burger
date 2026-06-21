@@ -1,14 +1,11 @@
 import { Button, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Modal } from '@components/modal/modal';
 import { OrderDetails } from '@components/order-details/order-details';
 import { useModal } from '@hooks/use-modal';
-import {
-  selectConstructorBun,
-  selectConstructorFillings,
-} from '@services/burger-constructor/slice';
+import { getOrderIngredients, getTotalPrice } from '@services/burger-constructor/slice';
 import { createOrder } from '@services/order/actions';
 import { clearOrder } from '@services/order/slice';
 
@@ -18,27 +15,8 @@ const Total = () => {
   const dispatch = useDispatch();
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const selectedBun = useSelector(selectConstructorBun);
-  const selectedFillings = useSelector(selectConstructorFillings);
-
-  const totalPrice = useMemo(
-    () =>
-      (selectedBun ? selectedBun.price * 2 : 0) +
-      selectedFillings.reduce((sum, ingredient) => sum + ingredient.price, 0),
-    [selectedBun, selectedFillings]
-  );
-
-  const orderIngredients = useMemo(
-    () =>
-      selectedBun
-        ? [
-            selectedBun._id,
-            ...selectedFillings.map((ingredient) => ingredient._id),
-            selectedBun._id,
-          ]
-        : [],
-    [selectedBun, selectedFillings]
-  );
+  const totalPrice = useSelector(getTotalPrice);
+  const orderIngredients = useSelector(getOrderIngredients);
 
   const handleOrder = () => {
     if (!orderIngredients.length) {

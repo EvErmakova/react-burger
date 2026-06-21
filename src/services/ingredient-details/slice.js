@@ -16,10 +16,10 @@ export const ingredientDetailsSlice = createSlice({
     },
   },
   selectors: {
-    selectIngredientDetails: (state) => state.ingredient,
+    getIngredient: (state) => state.ingredient,
   },
 });
 
 export const { setIngredient, clearIngredient } = ingredientDetailsSlice.actions;
 
-export const { selectIngredientDetails } = ingredientDetailsSlice.selectors;
+export const { getIngredient } = ingredientDetailsSlice.selectors;

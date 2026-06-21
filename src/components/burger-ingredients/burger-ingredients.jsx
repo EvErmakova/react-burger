@@ -5,7 +5,7 @@ import { IngredientDetails } from '@components/ingredient-details/ingredient-det
 import { Modal } from '@components/modal/modal';
 import { useModal } from '@hooks/use-modal';
 import { clearIngredient, setIngredient } from '@services/ingredient-details/slice';
-import { selectIngredients } from '@services/ingredients/slice';
+import { getIngredients } from '@services/ingredients/slice';
 import { INGREDIENT_TABS } from '@utils/constants';
 
 import Card from './components/card/card';
@@ -16,7 +16,7 @@ import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = () => {
   const dispatch = useDispatch();
-  const ingredients = useSelector(selectIngredients);
+  const ingredients = useSelector(getIngredients);
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const [activeTab, setActiveTab] = useState(INGREDIENT_TABS[0].value);

@@ -6,17 +6,14 @@ import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 import { fetchIngredients } from '@services/ingredients/actions';
-import {
-  selectIngredientsError,
-  selectIngredientsLoading,
-} from '@services/ingredients/slice';
+import { getIngredientsError, getIngredientsLoading } from '@services/ingredients/slice';
 
 import styles from './app.module.css';
 
 export const App = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIngredientsLoading);
-  const error = useSelector(selectIngredientsError);
+  const isLoading = useSelector(getIngredientsLoading);
+  const error = useSelector(getIngredientsError);
 
   useEffect(() => {
     dispatch(fetchIngredients());

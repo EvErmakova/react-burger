@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   addIngredient,
-  selectConstructorBun,
-  selectConstructorFillings,
+  getConstructorBun,
+  getConstructorFillings,
 } from '@services/burger-constructor/slice';
 import { DND_TYPES, INGREDIENT_TYPES } from '@utils/constants';
 
@@ -16,8 +16,8 @@ import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const selectedBun = useSelector(selectConstructorBun);
-  const selectedFillings = useSelector(selectConstructorFillings);
+  const selectedBun = useSelector(getConstructorBun);
+  const selectedFillings = useSelector(getConstructorFillings);
 
   const [{ isBunHover, isFillingHover }, dropRef] = useDrop({
     accept: DND_TYPES.INGREDIENT,
