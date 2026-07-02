@@ -1,0 +1,13 @@
+.link {
+  display: block;
+  width: 100%;
+  padding: 17px 0;
+  text-align: start;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.link:hover {
+  opacity: 0.8;
+}
