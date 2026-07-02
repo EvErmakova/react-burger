@@ -6,3 +6,7 @@
   padding: 0;
   list-style: none;
 }
+
+.hint {
+  opacity: 0.4;
+}

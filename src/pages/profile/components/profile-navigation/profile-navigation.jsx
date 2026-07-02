@@ -2,20 +2,32 @@ import { NavigationItem } from './components/navigation-item/navigation-item';
 
 import styles from './profile-navigation.module.css';
 
-export const ProfileNavigation = ({ onLogout }) => {
+export const ProfileNavigation = ({ hint }) => {
+  const handleLogout = () => {
+    // TODO: очистка сессии будет добавлена вместе с авторизацией
+  };
+
   return (
-    <ul className={styles.menu}>
-      <li>
-        <NavigationItem to="/profile" end>
-          Профиль
-        </NavigationItem>
-      </li>
-      <li>
-        <NavigationItem to="/profile/orders">История заказов</NavigationItem>
-      </li>
-      <li>
-        <NavigationItem onClick={onLogout}>Выход</NavigationItem>
-      </li>
-    </ul>
+    <>
+      <ul className={styles.menu}>
+        <li>
+          <NavigationItem to="/profile" end>
+            Профиль
+          </NavigationItem>
+        </li>
+        <li>
+          <NavigationItem to="/profile/orders">История заказов</NavigationItem>
+        </li>
+        <li>
+          <NavigationItem onClick={handleLogout}>Выход</NavigationItem>
+        </li>
+      </ul>
+
+      <p
+        className={`${styles.hint} text text_type_main-default text_color_inactive mt-20`}
+      >
+        {hint}
+      </p>
+    </>
   );
 };

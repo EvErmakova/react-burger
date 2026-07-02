@@ -1,12 +1,20 @@
 import { Input, PasswordInput } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 
 import styles from './profile-form.module.css';
 
+const HINT = 'В этом разделе вы можете изменить свои персональные данные';
+
 export const ProfileForm = () => {
+  const { setHint } = useOutletContext();
   const [name, setName] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    setHint(HINT);
+  }, [setHint]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
