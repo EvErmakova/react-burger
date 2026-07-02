@@ -2,4 +2,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: move;
+}
+
+.card_dragging {
+  opacity: 0;
 }

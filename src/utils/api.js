@@ -14,8 +14,16 @@ const checkSuccess = (data) => {
   return Promise.reject(new Error('Ответ API не success'));
 };
 
-export const getIngredients = () =>
-  fetch(`${BASE_URL}/ingredients`)
-    .then(checkResponse)
-    .then(checkSuccess)
-    .then((data) => data.data);
+const request = (endpoint, options) =>
+  fetch(`${BASE_URL}/${endpoint}`, options).then(checkResponse).then(checkSuccess);
+
+export const getIngredients = () => request('ingredients').then((data) => data.data);
+
+export const createOrder = (ingredientIds) =>
+  request('orders', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ingredients: ingredientIds }),
+  });

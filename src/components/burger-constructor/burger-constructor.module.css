@@ -1,6 +1,7 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   box-sizing: border-box;
   width: 600px;
   padding-left: 16px;
@@ -8,7 +9,6 @@
 
 .ingredients {
   display: flex;
-  flex: 1;
   flex-direction: column;
   gap: 16px;
   min-height: 0;

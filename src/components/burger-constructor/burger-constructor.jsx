@@ -1,41 +1,71 @@
-import { useMemo } from 'react';
+import { useDrop } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  addIngredient,
+  getConstructorBun,
+  getConstructorFillings,
+} from '@services/burger-constructor/slice';
+import { DND_TYPES, INGREDIENT_TYPES } from '@utils/constants';
 
 import Card from './components/card/card';
+import { Placeholder } from './components/placeholder/placeholder';
 import Total from './components/total/total';
 
 import styles from './burger-constructor.module.css';
 
-export const BurgerConstructor = ({ ingredients }) => {
-  const selectedBun = ingredients.find((ingredient) => ingredient.type === 'bun');
+export const BurgerConstructor = () => {
+  const dispatch = useDispatch();
+  const selectedBun = useSelector(getConstructorBun);
+  const selectedFillings = useSelector(getConstructorFillings);
 
-  const selectedIngredients = useMemo(
-    () => ingredients.filter((ingredient) => ingredient.type !== 'bun'),
-    [ingredients]
-  );
+  const [{ isBunHover, isFillingHover }, dropRef] = useDrop({
+    accept: DND_TYPES.INGREDIENT,
+    drop: (ingredient) => dispatch(addIngredient(ingredient)),
+    collect: (monitor) => {
+      const isOver = monitor.isOver();
+      const isBun = monitor.getItem()?.type === INGREDIENT_TYPES.BUN;
 
-  const totalPrice = ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0);
+      return {
+        isBunHover: isOver && isBun,
+        isFillingHover: isOver && !isBun,
+      };
+    },
+  });
 
   return (
     <section className={styles.burger_constructor}>
-      <ul className={styles.ingredients}>
+      <ul className={styles.ingredients} ref={dropRef}>
         <li>
-          <Card ingredient={selectedBun} type="top" />
+          {selectedBun ? (
+            <Card ingredient={selectedBun} type="top" />
+          ) : (
+            <Placeholder type="top" text="Выберите булки" isHover={isBunHover} />
+          )}
         </li>
         <li className={styles.fillings}>
-          <ul className={`${styles.fillings_list} custom-scroll`}>
-            {selectedIngredients.map((ingredient) => (
-              <li key={ingredient._id}>
-                <Card ingredient={ingredient} />
-              </li>
-            ))}
-          </ul>
+          {selectedFillings.length > 0 ? (
+            <ul className={`${styles.fillings_list} custom-scroll`}>
+              {selectedFillings.map((ingredient, index) => (
+                <li key={ingredient.uniqueId}>
+                  <Card ingredient={ingredient} index={index} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <Placeholder text="Выберите начинку" isHover={isFillingHover} />
+          )}
         </li>
         <li>
-          <Card ingredient={selectedBun} type="bottom" />
+          {selectedBun ? (
+            <Card ingredient={selectedBun} type="bottom" />
+          ) : (
+            <Placeholder type="bottom" text="Выберите булки" isHover={isBunHover} />
+          )}
         </li>
       </ul>
 
-      <Total totalPrice={totalPrice} />
+      <Total />
     </section>
   );
 };

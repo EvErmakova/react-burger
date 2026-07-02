@@ -1,17 +1,28 @@
-import { Fragment, useCallback, useMemo, useState } from 'react';
+import { Fragment, useCallback, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { Modal } from '@components/modal/modal';
+import { useModal } from '@hooks/use-modal';
+import { clearIngredient, setIngredient } from '@services/ingredient-details/slice';
+import { getIngredients } from '@services/ingredients/slice';
+import { INGREDIENT_TABS } from '@utils/constants';
 
 import Card from './components/card/card';
 import { Tabs } from './components/tabs/tabs';
-import { INGREDIENT_TABS } from './constants';
+import { getClosestTab, scrollToHeading } from './helpers';
 
 import styles from './burger-ingredients.module.css';
 
-export const BurgerIngredients = ({ ingredients }) => {
+export const BurgerIngredients = () => {
+  const dispatch = useDispatch();
+  const ingredients = useSelector(getIngredients);
+  const { isModalOpen, openModal, closeModal } = useModal();
+
   const [activeTab, setActiveTab] = useState(INGREDIENT_TABS[0].value);
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
+
+  const containerRef = useRef(null);
+  const headingRefs = useRef({});
 
   const ingredientsByType = useMemo(
     () =>
@@ -24,24 +35,47 @@ export const BurgerIngredients = ({ ingredients }) => {
 
   function handleTabChange(tab) {
     setActiveTab(tab);
+    scrollToHeading(containerRef.current, headingRefs.current[tab]);
   }
 
-  const handleCardClick = useCallback((ingredient) => {
-    setSelectedIngredient(ingredient);
-  }, []);
+  function handleScroll() {
+    if (containerRef.current) {
+      setActiveTab(getClosestTab(containerRef.current, headingRefs.current));
+    }
+  }
+
+  const handleCardClick = useCallback(
+    (ingredient) => {
+      dispatch(setIngredient(ingredient));
+      openModal();
+    },
+    [dispatch, openModal]
+  );
 
   const handleCloseModal = useCallback(() => {
-    setSelectedIngredient(null);
-  }, []);
+    dispatch(clearIngredient());
+    closeModal();
+  }, [dispatch, closeModal]);
 
   return (
     <section className={styles.burger_ingredients}>
       <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
 
-      <div className={`${styles.wrapper} custom-scroll mt-10`}>
+      <div
+        ref={containerRef}
+        onScroll={handleScroll}
+        className={`${styles.wrapper} custom-scroll mt-10`}
+      >
         {ingredientsByType.map((tab) => (
           <Fragment key={tab.value}>
-            <h2 className="text text_type_main-medium mb-6">{tab.title}</h2>
+            <h2
+              ref={(node) => {
+                headingRefs.current[tab.value] = node;
+              }}
+              className="text text_type_main-medium mb-6"
+            >
+              {tab.title}
+            </h2>
             <ul className={styles.list}>
               {tab.ingredients.map((ingredient) => (
                 <li key={ingredient._id} className={styles.item}>
@@ -53,9 +87,9 @@ export const BurgerIngredients = ({ ingredients }) => {
         ))}
       </div>
 
-      {selectedIngredient && (
+      {isModalOpen && (
         <Modal title="Детали ингредиента" onClose={handleCloseModal}>
-          <IngredientDetails ingredient={selectedIngredient} />
+          <IngredientDetails />
         </Modal>
       )}
     </section>

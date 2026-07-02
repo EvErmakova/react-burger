@@ -3,14 +3,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0;
+  box-sizing: border-box;
+  margin: -8px;
+  padding: 8px;
   color: inherit;
   font: inherit;
   text-align: center;
-  background: none;
+  background: var(--background-alt);
   border: none;
+  border-radius: 16px;
   cursor: pointer;
   transition: var(--common-transition);
+
+  &.dragging {
+    opacity: 0.7;
+  }
 }
 
 .card:hover {
@@ -31,4 +38,10 @@
 
 .name {
   min-height: 48px;
+}
+
+.counter {
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }

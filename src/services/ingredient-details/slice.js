@@ -1,0 +1,25 @@
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  ingredient: null,
+};
+
+export const ingredientDetailsSlice = createSlice({
+  name: 'ingredientDetails',
+  initialState,
+  reducers: {
+    setIngredient: (state, action) => {
+      state.ingredient = action.payload;
+    },
+    clearIngredient: (state) => {
+      state.ingredient = null;
+    },
+  },
+  selectors: {
+    getIngredient: (state) => state.ingredient,
+  },
+});
+
+export const { setIngredient, clearIngredient } = ingredientDetailsSlice.actions;
+
+export const { getIngredient } = ingredientDetailsSlice.selectors;

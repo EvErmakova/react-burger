@@ -1,22 +1,35 @@
 import { Button, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
-import { memo, useCallback, useState } from 'react';
+import { memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Modal } from '@components/modal/modal';
 import { OrderDetails } from '@components/order-details/order-details';
+import { useModal } from '@hooks/use-modal';
+import { getOrderIngredients, getTotalPrice } from '@services/burger-constructor/slice';
+import { createOrder } from '@services/order/actions';
+import { clearOrder } from '@services/order/slice';
 
 import styles from './total.module.css';
 
-const Total = ({ totalPrice }) => {
-  const orderNumber = '034536';
-  const [isOrderOpen, setIsOrderOpen] = useState(false);
+const Total = () => {
+  const dispatch = useDispatch();
+  const { isModalOpen, openModal, closeModal } = useModal();
 
-  function handleOrderClick() {
-    setIsOrderOpen(true);
-  }
+  const totalPrice = useSelector(getTotalPrice);
+  const orderIngredients = useSelector(getOrderIngredients);
 
-  const handleCloseOrder = useCallback(() => {
-    setIsOrderOpen(false);
-  }, []);
+  const handleOrder = () => {
+    if (!orderIngredients.length) {
+      return;
+    }
+    dispatch(createOrder(orderIngredients));
+    openModal();
+  };
+
+  const handleClose = () => {
+    closeModal();
+    dispatch(clearOrder());
+  };
 
   return (
     <div className={styles.total}>
@@ -24,13 +37,18 @@ const Total = ({ totalPrice }) => {
         {totalPrice}
         <CurrencyIcon type="primary" className={styles.currency_icon} />
       </p>
-      <Button onClick={handleOrderClick} size="large" type="primary">
+      <Button
+        onClick={handleOrder}
+        size="large"
+        type="primary"
+        disabled={!orderIngredients.length}
+      >
         Оформить заказ
       </Button>
 
-      {isOrderOpen && (
-        <Modal onClose={handleCloseOrder}>
-          <OrderDetails orderNumber={orderNumber} />
+      {isModalOpen && (
+        <Modal onClose={handleClose}>
+          <OrderDetails />
         </Modal>
       )}
     </div>
