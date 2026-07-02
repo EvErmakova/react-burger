@@ -1,10 +1,7 @@
 import { Fragment, useCallback, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
-import { Modal } from '@components/modal/modal';
-import { useModal } from '@hooks/use-modal';
-import { clearIngredient, setIngredient } from '@services/ingredient-details/slice';
 import { getIngredients } from '@services/ingredients/slice';
 import { INGREDIENT_TABS } from '@utils/constants';
 
@@ -15,9 +12,9 @@ import { getClosestTab, scrollToHeading } from './helpers';
 import styles from './burger-ingredients.module.css';
 
 export const BurgerIngredients = () => {
-  const dispatch = useDispatch();
   const ingredients = useSelector(getIngredients);
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState(INGREDIENT_TABS[0].value);
 
@@ -46,16 +43,12 @@ export const BurgerIngredients = () => {
 
   const handleCardClick = useCallback(
     (ingredient) => {
-      dispatch(setIngredient(ingredient));
-      openModal();
+      navigate(`/ingredients/${ingredient._id}`, {
+        state: { backgroundLocation: location },
+      });
     },
-    [dispatch, openModal]
+    [navigate, location]
   );
-
-  const handleCloseModal = useCallback(() => {
-    dispatch(clearIngredient());
-    closeModal();
-  }, [dispatch, closeModal]);
 
   return (
     <section className={styles.burger_ingredients}>
@@ -86,12 +79,6 @@ export const BurgerIngredients = () => {
           </Fragment>
         ))}
       </div>
-
-      {isModalOpen && (
-        <Modal title="Детали ингредиента" onClose={handleCloseModal}>
-          <IngredientDetails />
-        </Modal>
-      )}
     </section>
   );
 };
