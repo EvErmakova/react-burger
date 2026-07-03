@@ -6,6 +6,7 @@ import {
   loginUser,
   logoutUser,
   registerUser,
+  updateUserData,
 } from './actions';
 
 const initialState = {
@@ -34,6 +35,9 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(getUserData.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
+      .addCase(updateUserData.fulfilled, (state, action) => {
         state.user = action.payload;
       })
       .addMatcher(isAnyOf(checkUserAuth.fulfilled, checkUserAuth.rejected), (state) => {

@@ -8,6 +8,7 @@ import {
   logout as logoutApi,
   register as registerApi,
   setTokens,
+  updateUser as updateUserApi,
 } from '@utils/api';
 
 export const registerUser = createAsyncThunk('auth/register', async (form) => {
@@ -29,6 +30,11 @@ export const logoutUser = createAsyncThunk('auth/logout', async () => {
 
 export const getUserData = createAsyncThunk('auth/getUser', async () => {
   const data = await getUserApi();
+  return data.user;
+});
+
+export const updateUserData = createAsyncThunk('auth/updateUser', async (form) => {
+  const data = await updateUserApi(form);
   return data.user;
 });
 

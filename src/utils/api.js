@@ -64,6 +64,25 @@ export const requestWithRefresh = async (endpoint, options) => {
 
 export const getIngredients = () => request('ingredients').then((data) => data.data);
 
+export const getUser = () =>
+  requestWithRefresh('auth/user', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: getAccessToken(),
+    },
+  });
+
+export const updateUser = ({ name, email, password }) =>
+  requestWithRefresh('auth/user', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: getAccessToken(),
+    },
+    body: JSON.stringify({ name, email, password }),
+  });
+
 export const createOrder = (ingredientIds) =>
   requestWithRefresh('orders', {
     method: 'POST',
@@ -72,15 +91,6 @@ export const createOrder = (ingredientIds) =>
       authorization: getAccessToken(),
     },
     body: JSON.stringify({ ingredients: ingredientIds }),
-  });
-
-export const getUser = () =>
-  requestWithRefresh('auth/user', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: getAccessToken(),
-    },
   });
 
 export const register = ({ email, password, name }) =>
