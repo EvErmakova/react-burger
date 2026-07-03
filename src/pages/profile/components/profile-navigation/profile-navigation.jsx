@@ -1,10 +1,16 @@
+import { useDispatch } from 'react-redux';
+
+import { logoutUser } from '@services/auth/actions';
+
 import { NavigationItem } from './components/navigation-item/navigation-item';
 
 import styles from './profile-navigation.module.css';
 
 export const ProfileNavigation = ({ hint }) => {
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
-    // TODO: очистка сессии будет добавлена вместе с авторизацией
+    dispatch(logoutUser());
   };
 
   return (
