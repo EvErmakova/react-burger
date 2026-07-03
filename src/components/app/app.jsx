@@ -5,6 +5,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { IngredientModal } from '@components/ingredient-modal/ingredient-modal';
+import { ProtectedRoute } from '@components/protected-route/protected-route';
 import { Feed } from '@pages/feed/feed';
 import { ForgotPassword } from '@pages/forgot-password/forgot-password';
 import { Home } from '@pages/home/home';
@@ -16,6 +17,7 @@ import { ProfileOrders } from '@pages/profile/pages/profile-orders/profile-order
 import { Profile } from '@pages/profile/profile';
 import { Register } from '@pages/register/register';
 import { ResetPassword } from '@pages/reset-password/reset-password';
+import { checkUserAuth } from '@services/auth/actions';
 import { fetchIngredients } from '@services/ingredients/actions';
 import { getIngredientsError, getIngredientsLoading } from '@services/ingredients/slice';
 
@@ -31,6 +33,7 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch(checkUserAuth());
   }, [dispatch]);
 
   return (
@@ -50,11 +53,26 @@ export const App = () => {
             <Routes location={backgroundLocation || location}>
               <Route path="/" element={<Home />} />
               <Route path="/feed" element={<Feed />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/profile" element={<Profile />}>
+              <Route
+                path="/login"
+                element={<ProtectedRoute onlyUnAuth component={<Login />} />}
+              />
+              <Route
+                path="/register"
+                element={<ProtectedRoute onlyUnAuth component={<Register />} />}
+              />
+              <Route
+                path="/forgot-password"
+                element={<ProtectedRoute onlyUnAuth component={<ForgotPassword />} />}
+              />
+              <Route
+                path="/reset-password"
+                element={<ProtectedRoute onlyUnAuth component={<ResetPassword />} />}
+              />
+              <Route
+                path="/profile"
+                element={<ProtectedRoute component={<Profile />} />}
+              >
                 <Route index element={<ProfileForm />} />
                 <Route path="orders" element={<ProfileOrders />} />
               </Route>

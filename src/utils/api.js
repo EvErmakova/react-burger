@@ -74,6 +74,15 @@ export const createOrder = (ingredientIds) =>
     body: JSON.stringify({ ingredients: ingredientIds }),
   });
 
+export const getUser = () =>
+  requestWithRefresh('auth/user', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: getAccessToken(),
+    },
+  });
+
 export const register = ({ email, password, name }) =>
   request('auth/register', {
     method: 'POST',
