@@ -3,11 +3,12 @@ import { BASE_URL } from '@utils/constants';
 const ACCESS_TOKEN_KEY = 'accessToken';
 const REFRESH_TOKEN_KEY = 'refreshToken';
 
-const checkResponse = (res) => {
+const checkResponse = async (res) => {
+  const data = await res.json().catch(() => null);
   if (!res.ok) {
-    return Promise.reject(new Error(`Ошибка ${res.status}`));
+    return Promise.reject(new Error(data?.message || `Ошибка ${res.status}`));
   }
-  return res.json();
+  return data;
 };
 
 const checkSuccess = (data) => {
