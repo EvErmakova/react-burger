@@ -4,16 +4,41 @@ import {
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import { AuthLayout } from '@components/auth-layout/auth-layout';
+import { resetPassword } from '@utils/api';
 
 export const ResetPassword = () => {
+  const navigate = useNavigate();
+
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const isResetPasswordAllowed = localStorage.getItem('resetPasswordAllowed') === 'true';
+
+  if (!isResetPasswordAllowed) {
+    return <Navigate to="/forgot-password" replace />;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    resetPassword({ password, token: code })
+      .then(() => {
+        localStorage.removeItem('resetPasswordAllowed');
+        navigate('/login');
+      })
+      .catch((err) => {
+        setError(err.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -39,9 +64,12 @@ export const ResetPassword = () => {
         value={code}
         onChange={(e) => setCode(e.target.value)}
       />
-      <Button htmlType="submit" type="primary" size="medium">
+      <Button htmlType="submit" type="primary" size="medium" disabled={isLoading}>
         Сохранить
       </Button>
+      {error && (
+        <p className="text text_type_main-default text_color_error mt-2">{error}</p>
+      )}
     </AuthLayout>
   );
 };
