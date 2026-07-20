@@ -9,7 +9,9 @@ import {
   updateUserData,
 } from './actions';
 
-const initialState = {
+import type { TAuthState } from './types';
+
+const initialState: TAuthState = {
   user: null,
   isAuthChecked: false,
   isLoading: false,
@@ -61,7 +63,7 @@ export const authSlice = createSlice({
         isAnyOf(registerUser.rejected, loginUser.rejected, logoutUser.rejected),
         (state, action) => {
           state.isLoading = false;
-          state.error = action.error.message;
+          state.error = action.error.message ?? null;
         }
       );
   },

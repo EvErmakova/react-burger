@@ -1,6 +1,12 @@
 import { createSelector, createSlice, nanoid } from '@reduxjs/toolkit';
 
-const initialState = {
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import type { TConstructorIngredient, TIngredient } from '@utils/types';
+
+import type { TBurgerConstructorState, TMoveIngredientPayload } from './types';
+
+const initialState: TBurgerConstructorState = {
   bun: null,
   fillings: [],
 };
@@ -10,23 +16,23 @@ export const burgerConstructorSlice = createSlice({
   initialState,
   reducers: {
     addIngredient: {
-      reducer: (state, action) => {
+      reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
         if (action.payload.type === 'bun') {
           state.bun = action.payload;
         } else {
           state.fillings.push(action.payload);
         }
       },
-      prepare: (ingredient) => ({
+      prepare: (ingredient: TIngredient) => ({
         payload: { ...ingredient, uniqueId: nanoid() },
       }),
     },
-    removeIngredient: (state, action) => {
+    removeIngredient: (state, action: PayloadAction<string>) => {
       state.fillings = state.fillings.filter(
         (ingredient) => ingredient.uniqueId !== action.payload
       );
     },
-    moveIngredient: (state, action) => {
+    moveIngredient: (state, action: PayloadAction<TMoveIngredientPayload>) => {
       const { fromIndex, toIndex } = action.payload;
 
       if (fromIndex === toIndex) return;
@@ -46,9 +52,9 @@ export const burgerConstructorSlice = createSlice({
     getConstructorBun: (state) => state.bun,
     getConstructorFillings: (state) => state.fillings,
     getIngredientCount: createSelector(
-      (state) => state.bun,
-      (state) => state.fillings,
-      (_state, id) => id,
+      (state: TBurgerConstructorState) => state.bun,
+      (state: TBurgerConstructorState) => state.fillings,
+      (_state: TBurgerConstructorState, id: string) => id,
       (bun, fillings, id) => {
         const bunCount = bun?._id === id ? 2 : 0;
         const fillingsCount = fillings.filter(
@@ -58,8 +64,8 @@ export const burgerConstructorSlice = createSlice({
       }
     ),
     getTotalPrice: createSelector(
-      (state) => state.bun,
-      (state) => state.fillings,
+      (state: TBurgerConstructorState) => state.bun,
+      (state: TBurgerConstructorState) => state.fillings,
       (bun, fillings) => {
         const bunPrice = bun ? bun.price * 2 : 0;
         const fillingsPrice = fillings.reduce(
@@ -70,8 +76,8 @@ export const burgerConstructorSlice = createSlice({
       }
     ),
     getOrderIngredients: createSelector(
-      (state) => state.bun,
-      (state) => state.fillings,
+      (state: TBurgerConstructorState) => state.bun,
+      (state: TBurgerConstructorState) => state.fillings,
       (bun, fillings) =>
         bun ? [bun._id, ...fillings.map((ingredient) => ingredient._id), bun._id] : []
     ),

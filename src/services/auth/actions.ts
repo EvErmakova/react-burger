@@ -11,13 +11,18 @@ import {
   updateUser as updateUserApi,
 } from '@utils/api';
 
-export const registerUser = createAsyncThunk('auth/register', async (form) => {
-  const data = await registerApi(form);
-  setTokens(data);
-  return data.user;
-});
+import type { TLoginForm, TRegisterForm, TUpdateUserForm } from '@utils/types';
 
-export const loginUser = createAsyncThunk('auth/login', async (form) => {
+export const registerUser = createAsyncThunk(
+  'auth/register',
+  async (form: TRegisterForm) => {
+    const data = await registerApi(form);
+    setTokens(data);
+    return data.user;
+  }
+);
+
+export const loginUser = createAsyncThunk('auth/login', async (form: TLoginForm) => {
   const data = await loginApi(form);
   setTokens(data);
   return data.user;
@@ -33,14 +38,17 @@ export const getUserData = createAsyncThunk('auth/getUser', async () => {
   return data.user;
 });
 
-export const updateUserData = createAsyncThunk('auth/updateUser', async (form) => {
-  const data = await updateUserApi(form);
-  return data.user;
-});
+export const updateUserData = createAsyncThunk(
+  'auth/updateUser',
+  async (form: TUpdateUserForm) => {
+    const data = await updateUserApi(form);
+    return data.user;
+  }
+);
 
 export const checkUserAuth = createAsyncThunk(
   'auth/checkUser',
-  async (_, { dispatch }) => {
+  async (_: void, { dispatch }) => {
     if (!getAccessToken()) {
       return;
     }

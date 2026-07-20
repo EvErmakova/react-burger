@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { fetchIngredients } from './actions';
 
-const initialState = {
+import type { TIngredientsState } from './types';
+
+const initialState: TIngredientsState = {
   items: [],
   isLoading: true,
   error: null,
@@ -29,7 +31,7 @@ export const ingredientsSlice = createSlice({
       })
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? null;
       });
   },
 });
