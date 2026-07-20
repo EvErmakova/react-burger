@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Modal } from '@components/modal/modal';
 import { OrderDetails } from '@components/order-details/order-details';
-import { useModal } from '@hooks/use-modal';
+import { useModal } from '@hooks/use-modal/use-modal';
 import { getIsAuthenticated } from '@services/auth/slice';
 import { getOrderIngredients, getTotalPrice } from '@services/burger-constructor/slice';
 import { createOrder } from '@services/order/actions';

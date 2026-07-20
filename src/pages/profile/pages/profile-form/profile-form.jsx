@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useOutletContext } from 'react-router-dom';
 
-import { useForm } from '@hooks/use-form';
+import { useForm } from '@hooks/use-form/use-form';
 import { updateUserData } from '@services/auth/actions';
 import { getUser } from '@services/auth/slice';
 

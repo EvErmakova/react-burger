@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import { AuthLayout } from '@components/auth-layout/auth-layout';
-import { useForm } from '@hooks/use-form';
+import { useForm } from '@hooks/use-form/use-form';
 import { resetPassword } from '@utils/api';
 
 export const ResetPassword = () => {

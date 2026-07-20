@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { AuthLayout } from '@components/auth-layout/auth-layout';
-import { useForm } from '@hooks/use-form';
+import { useForm } from '@hooks/use-form/use-form';
 import { forgotPassword } from '@utils/api';
 
 export const ForgotPassword = () => {

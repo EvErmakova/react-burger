@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { AuthLayout } from '@components/auth-layout/auth-layout';
-import { useForm } from '@hooks/use-form';
+import { useForm } from '@hooks/use-form/use-form';
 import { loginUser } from '@services/auth/actions';
 import { getAuthError, getAuthLoading } from '@services/auth/slice';
 
