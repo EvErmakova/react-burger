@@ -4,11 +4,11 @@ import {
   Input,
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { AuthLayout } from '@components/auth-layout/auth-layout';
+import { useForm } from '@hooks/use-form';
 import { registerUser } from '@services/auth/actions';
 import { getAuthError, getAuthLoading } from '@services/auth/slice';
 
@@ -17,13 +17,11 @@ export const Register = () => {
   const isLoading = useSelector(getAuthLoading);
   const error = useSelector(getAuthError);
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { values, handleChange } = useForm({ name: '', email: '', password: '' });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(registerUser({ name, email, password }));
+    dispatch(registerUser(values));
   };
 
   return (
@@ -40,20 +38,20 @@ export const Register = () => {
         type="text"
         name="name"
         placeholder="Имя"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={values.name}
+        onChange={handleChange}
       />
       <EmailInput
         name="email"
         placeholder="E-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={values.email}
+        onChange={handleChange}
       />
       <PasswordInput
         name="password"
         placeholder="Пароль"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={values.password}
+        onChange={handleChange}
       />
       <Button htmlType="submit" type="primary" size="medium" disabled={isLoading}>
         Зарегистрироваться

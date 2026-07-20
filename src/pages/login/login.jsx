@@ -3,11 +3,11 @@ import {
   EmailInput,
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { AuthLayout } from '@components/auth-layout/auth-layout';
+import { useForm } from '@hooks/use-form';
 import { loginUser } from '@services/auth/actions';
 import { getAuthError, getAuthLoading } from '@services/auth/slice';
 
@@ -16,12 +16,11 @@ export const Login = () => {
   const isLoading = useSelector(getAuthLoading);
   const error = useSelector(getAuthError);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { values, handleChange } = useForm({ email: '', password: '' });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    dispatch(loginUser(values));
   };
 
   return (
@@ -42,14 +41,14 @@ export const Login = () => {
       <EmailInput
         name="email"
         placeholder="E-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={values.email}
+        onChange={handleChange}
       />
       <PasswordInput
         name="password"
         placeholder="Пароль"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={values.password}
+        onChange={handleChange}
       />
       <Button htmlType="submit" type="primary" size="medium" disabled={isLoading}>
         Войти

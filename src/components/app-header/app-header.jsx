@@ -4,6 +4,7 @@ import {
   ProfileIcon,
   Logo,
 } from '@krgaa/react-developer-burger-ui-components';
+import { Link } from 'react-router-dom';
 
 import { HeaderMenuItem } from '@components/header-menu-item/header-menu-item';
 
@@ -22,9 +23,9 @@ export const AppHeader = () => {
             className="ml-10"
           />
         </div>
-        <div className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           <Logo />
-        </div>
+        </Link>
         <HeaderMenuItem
           to="/profile"
           icon={ProfileIcon}

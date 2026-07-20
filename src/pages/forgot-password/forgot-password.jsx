@@ -3,12 +3,13 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { AuthLayout } from '@components/auth-layout/auth-layout';
+import { useForm } from '@hooks/use-form';
 import { forgotPassword } from '@utils/api';
 
 export const ForgotPassword = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
+  const { values, handleChange } = useForm({ email: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -17,7 +18,7 @@ export const ForgotPassword = () => {
     setIsLoading(true);
     setError(null);
 
-    forgotPassword({ email })
+    forgotPassword({ email: values.email })
       .then(() => {
         localStorage.setItem('resetPasswordAllowed', 'true');
         navigate('/reset-password');
@@ -43,8 +44,8 @@ export const ForgotPassword = () => {
       <EmailInput
         name="email"
         placeholder="Укажите e-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={values.email}
+        onChange={handleChange}
       />
       <Button htmlType="submit" type="primary" size="medium" disabled={isLoading}>
         Восстановить

@@ -7,13 +7,13 @@ import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import { AuthLayout } from '@components/auth-layout/auth-layout';
+import { useForm } from '@hooks/use-form';
 import { resetPassword } from '@utils/api';
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
 
-  const [password, setPassword] = useState('');
-  const [code, setCode] = useState('');
+  const { values, handleChange } = useForm({ password: '', code: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -28,7 +28,7 @@ export const ResetPassword = () => {
     setIsLoading(true);
     setError(null);
 
-    resetPassword({ password, token: code })
+    resetPassword({ password: values.password, token: values.code })
       .then(() => {
         localStorage.removeItem('resetPasswordAllowed');
         navigate('/login');
@@ -54,15 +54,15 @@ export const ResetPassword = () => {
       <PasswordInput
         name="password"
         placeholder="Введите новый пароль"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={values.password}
+        onChange={handleChange}
       />
       <Input
         type="text"
         name="code"
         placeholder="Введите код из письма"
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
+        value={values.code}
+        onChange={handleChange}
       />
       <Button htmlType="submit" type="primary" size="medium" disabled={isLoading}>
         Сохранить

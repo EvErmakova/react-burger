@@ -3,10 +3,11 @@ import {
   Input,
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useOutletContext } from 'react-router-dom';
 
+import { useForm } from '@hooks/use-form';
 import { updateUserData } from '@services/auth/actions';
 import { getUser } from '@services/auth/slice';
 
@@ -19,33 +20,33 @@ export const ProfileForm = () => {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
 
-  const [name, setName] = useState(user?.name ?? '');
-  const [email, setEmail] = useState(user?.email ?? '');
-  const [password, setPassword] = useState('');
+  const { values, handleChange, setValues } = useForm({
+    name: user?.name ?? '',
+    email: user?.email ?? '',
+    password: '',
+  });
 
   useEffect(() => {
     setHint(HINT);
   }, [setHint]);
 
   useEffect(() => {
-    setName(user?.name ?? '');
-    setEmail(user?.email ?? '');
-    setPassword('');
-  }, [user]);
+    setValues({ name: user?.name ?? '', email: user?.email ?? '', password: '' });
+  }, [user, setValues]);
 
   const isChanged =
-    name !== (user?.name ?? '') || email !== (user?.email ?? '') || password !== '';
+    values.name !== (user?.name ?? '') ||
+    values.email !== (user?.email ?? '') ||
+    values.password !== '';
 
   const handleReset = (e) => {
     e.preventDefault();
-    setName(user?.name ?? '');
-    setEmail(user?.email ?? '');
-    setPassword('');
+    setValues({ name: user?.name ?? '', email: user?.email ?? '', password: '' });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUserData({ name, email, password }));
+    dispatch(updateUserData(values));
   };
 
   return (
@@ -55,23 +56,23 @@ export const ProfileForm = () => {
         name="name"
         placeholder="Имя"
         icon="EditIcon"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={values.name}
+        onChange={handleChange}
       />
       <Input
         type="text"
-        name="login"
+        name="email"
         placeholder="Логин"
         icon="EditIcon"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={values.email}
+        onChange={handleChange}
       />
       <PasswordInput
         name="password"
         placeholder="Пароль"
         icon="EditIcon"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={values.password}
+        onChange={handleChange}
       />
       {isChanged && (
         <div className={styles.actions}>
