@@ -1,13 +1,17 @@
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-import { getIngredient } from '@services/ingredient-details/slice';
+import { getIngredients } from '@services/ingredients/slice';
 
 import { NUTRITION } from './constants';
 
 import styles from './ingredient-details.module.css';
 
 export const IngredientDetails = () => {
-  const ingredient = useSelector(getIngredient);
+  const { id } = useParams();
+  const ingredient = useSelector(getIngredients).find(
+    (ingredient) => ingredient._id === id
+  );
 
   if (!ingredient) {
     return null;

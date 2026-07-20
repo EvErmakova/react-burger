@@ -1,10 +1,12 @@
 import { Button, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Modal } from '@components/modal/modal';
 import { OrderDetails } from '@components/order-details/order-details';
 import { useModal } from '@hooks/use-modal';
+import { getIsAuthenticated } from '@services/auth/slice';
 import { getOrderIngredients, getTotalPrice } from '@services/burger-constructor/slice';
 import { createOrder } from '@services/order/actions';
 import { clearOrder } from '@services/order/slice';
@@ -13,13 +15,20 @@ import styles from './total.module.css';
 
 const Total = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { isModalOpen, openModal, closeModal } = useModal();
 
+  const isAuthenticated = useSelector(getIsAuthenticated);
   const totalPrice = useSelector(getTotalPrice);
   const orderIngredients = useSelector(getOrderIngredients);
 
   const handleOrder = () => {
     if (!orderIngredients.length) {
+      return;
+    }
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: location } });
       return;
     }
     dispatch(createOrder(orderIngredients));
