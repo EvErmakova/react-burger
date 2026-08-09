@@ -10,12 +10,14 @@ import { AuthLayout } from '@components/auth-layout/auth-layout';
 import { useForm } from '@hooks/use-form/use-form';
 import { resetPassword } from '@utils/api';
 
-export const ResetPassword = () => {
+import type { FC, FormEvent } from 'react';
+
+export const ResetPassword: FC = () => {
   const navigate = useNavigate();
 
   const { values, handleChange } = useForm({ password: '', code: '' });
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const isResetPasswordAllowed = localStorage.getItem('resetPasswordAllowed') === 'true';
 
@@ -23,7 +25,7 @@ export const ResetPassword = () => {
     return <Navigate to="/forgot-password" replace />;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -33,7 +35,7 @@ export const ResetPassword = () => {
         localStorage.removeItem('resetPasswordAllowed');
         navigate('/login');
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         setError(err.message);
       })
       .finally(() => {

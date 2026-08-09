@@ -1,15 +1,18 @@
-import { useDispatch } from 'react-redux';
-
 import { logoutUser } from '@services/auth/actions';
+import { useAppDispatch } from '@services/hooks';
 
 import { NavigationItem } from './components/navigation-item/navigation-item';
 
+import type { FC } from 'react';
+
+import type { TProfileNavigationProps } from './types';
+
 import styles from './profile-navigation.module.css';
 
-export const ProfileNavigation = ({ hint }) => {
-  const dispatch = useDispatch();
+export const ProfileNavigation: FC<TProfileNavigationProps> = ({ hint }) => {
+  const dispatch = useAppDispatch();
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     dispatch(logoutUser());
   };
 

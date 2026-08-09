@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 
+import type { FC } from 'react';
+
 import styles from './not-found.module.css';
 
-export const NotFound = () => {
+export const NotFound: FC = () => {
   return (
     <div className={styles.container}>
       <p className={`${styles.code} text text_type_digits-large mb-15`}>404</p>

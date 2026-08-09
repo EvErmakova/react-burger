@@ -4,22 +4,24 @@ import {
   Input,
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { AuthLayout } from '@components/auth-layout/auth-layout';
 import { useForm } from '@hooks/use-form/use-form';
 import { registerUser } from '@services/auth/actions';
 import { getAuthError, getAuthLoading } from '@services/auth/slice';
+import { useAppDispatch, useAppSelector } from '@services/hooks';
 
-export const Register = () => {
-  const dispatch = useDispatch();
-  const isLoading = useSelector(getAuthLoading);
-  const error = useSelector(getAuthError);
+import type { FC, FormEvent } from 'react';
+
+export const Register: FC = () => {
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(getAuthLoading);
+  const error = useAppSelector(getAuthError);
 
   const { values, handleChange } = useForm({ name: '', email: '', password: '' });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     dispatch(registerUser(values));
   };

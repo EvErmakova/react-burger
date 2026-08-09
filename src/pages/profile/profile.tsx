@@ -3,9 +3,11 @@ import { Outlet } from 'react-router-dom';
 
 import { ProfileNavigation } from './components/profile-navigation/profile-navigation';
 
+import type { FC } from 'react';
+
 import styles from './profile.module.css';
 
-export const Profile = () => {
+export const Profile: FC = () => {
   const [hint, setHint] = useState('');
 
   return (

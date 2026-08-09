@@ -4,21 +4,25 @@ import {
   PasswordInput,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useOutletContext } from 'react-router-dom';
 
 import { useForm } from '@hooks/use-form/use-form';
 import { updateUserData } from '@services/auth/actions';
 import { getUser } from '@services/auth/slice';
+import { useAppDispatch, useAppSelector } from '@services/hooks';
+
+import type { FC, FormEvent } from 'react';
+
+import type { TProfileOutletContext } from '@pages/profile/types';
 
 import styles from './profile-form.module.css';
 
 const HINT = 'В этом разделе вы можете изменить свои персональные данные';
 
-export const ProfileForm = () => {
-  const { setHint } = useOutletContext();
-  const dispatch = useDispatch();
-  const user = useSelector(getUser);
+export const ProfileForm: FC = () => {
+  const { setHint } = useOutletContext<TProfileOutletContext>();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(getUser);
 
   const { values, handleChange, setValues } = useForm({
     name: user?.name ?? '',
@@ -39,12 +43,12 @@ export const ProfileForm = () => {
     values.email !== (user?.email ?? '') ||
     values.password !== '';
 
-  const handleReset = (e) => {
+  const handleReset = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setValues({ name: user?.name ?? '', email: user?.email ?? '', password: '' });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     dispatch(updateUserData(values));
   };

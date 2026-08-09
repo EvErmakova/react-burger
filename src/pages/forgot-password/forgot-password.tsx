@@ -6,14 +6,16 @@ import { AuthLayout } from '@components/auth-layout/auth-layout';
 import { useForm } from '@hooks/use-form/use-form';
 import { forgotPassword } from '@utils/api';
 
-export const ForgotPassword = () => {
+import type { FC, FormEvent } from 'react';
+
+export const ForgotPassword: FC = () => {
   const navigate = useNavigate();
 
   const { values, handleChange } = useForm({ email: '' });
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -23,7 +25,7 @@ export const ForgotPassword = () => {
         localStorage.setItem('resetPasswordAllowed', 'true');
         navigate('/reset-password');
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         setError(err.message);
       })
       .finally(() => {
