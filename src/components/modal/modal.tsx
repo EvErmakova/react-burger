@@ -4,13 +4,17 @@ import { createPortal } from 'react-dom';
 
 import { ModalOverlay } from '@components/modal-overlay/modal-overlay';
 
+import type { FC } from 'react';
+
+import type { TModalProps } from './types';
+
 import styles from './modal.module.css';
 
 const modalRoot = document.getElementById('modals');
 
-export const Modal = ({ title, onClose, children }) => {
+export const Modal: FC<TModalProps> = ({ title, onClose, children }) => {
   useEffect(() => {
-    const handleEsc = (evt) => {
+    const handleEsc = (evt: KeyboardEvent): void => {
       if (evt.key === 'Escape') {
         onClose();
       }
@@ -19,11 +23,15 @@ export const Modal = ({ title, onClose, children }) => {
     document.addEventListener('keydown', handleEsc);
     document.body.classList.add('modal-open');
 
-    return () => {
+    return (): void => {
       document.removeEventListener('keydown', handleEsc);
       document.body.classList.remove('modal-open');
     };
   }, [onClose]);
+
+  if (!modalRoot) {
+    return null;
+  }
 
   return createPortal(
     <>

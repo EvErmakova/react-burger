@@ -1,6 +1,5 @@
 import { Button, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
 import { memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Modal } from '@components/modal/modal';
@@ -8,22 +7,25 @@ import { OrderDetails } from '@components/order-details/order-details';
 import { useModal } from '@hooks/use-modal/use-modal';
 import { getIsAuthenticated } from '@services/auth/slice';
 import { getOrderIngredients, getTotalPrice } from '@services/burger-constructor/slice';
+import { useAppDispatch, useAppSelector } from '@services/hooks';
 import { createOrder } from '@services/order/actions';
 import { clearOrder } from '@services/order/slice';
 
+import type { FC } from 'react';
+
 import styles from './total.module.css';
 
-const Total = () => {
-  const dispatch = useDispatch();
+const Total: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const isAuthenticated = useSelector(getIsAuthenticated);
-  const totalPrice = useSelector(getTotalPrice);
-  const orderIngredients = useSelector(getOrderIngredients);
+  const isAuthenticated = useAppSelector(getIsAuthenticated);
+  const totalPrice = useAppSelector(getTotalPrice);
+  const orderIngredients = useAppSelector(getOrderIngredients);
 
-  const handleOrder = () => {
+  const handleOrder = (): void => {
     if (!orderIngredients.length) {
       return;
     }
@@ -35,7 +37,7 @@ const Total = () => {
     openModal();
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     closeModal();
     dispatch(clearOrder());
   };
@@ -47,6 +49,7 @@ const Total = () => {
         <CurrencyIcon type="primary" className={styles.currency_icon} />
       </p>
       <Button
+        htmlType="button"
         onClick={handleOrder}
         size="large"
         type="primary"

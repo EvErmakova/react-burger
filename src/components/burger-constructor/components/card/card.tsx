@@ -4,16 +4,20 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { memo, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 
 import { moveIngredient, removeIngredient } from '@services/burger-constructor/slice';
+import { useAppDispatch } from '@services/hooks';
 import { DND_TYPES } from '@utils/constants';
+
+import type { FC } from 'react';
+
+import type { TCardProps, TDragItem } from './types';
 
 import styles from './card.module.css';
 
-const Card = ({ ingredient, index, type }) => {
-  const dispatch = useDispatch();
-  const cardRef = useRef(null);
+const Card: FC<TCardProps> = ({ ingredient, index, type }) => {
+  const dispatch = useAppDispatch();
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const isLocked = type === 'top' || type === 'bottom';
   const isDraggable = !isLocked;
@@ -27,12 +31,15 @@ const Card = ({ ingredient, index, type }) => {
     }),
   });
 
-  const [, dropRef] = useDrop({
+  const [, dropRef] = useDrop<TDragItem>({
     accept: DND_TYPES.CONSTRUCTOR_INGREDIENT,
-    hover: (ingredient) => {
-      dispatch(moveIngredient({ fromIndex: ingredient.index, toIndex: index }));
+    hover: (item) => {
+      if (item.index === undefined || index === undefined) {
+        return;
+      }
+      dispatch(moveIngredient({ fromIndex: item.index, toIndex: index }));
 
-      ingredient.index = index;
+      item.index = index;
     },
   });
 
@@ -46,13 +53,15 @@ const Card = ({ ingredient, index, type }) => {
 
   const { name, image, price, uniqueId } = ingredient;
 
-  function getText() {
+  function getText(): string {
     if (type === 'top') return `${name} (верх)`;
     if (type === 'bottom') return `${name} (низ)`;
     return name;
   }
 
-  const handleClose = () => dispatch(removeIngredient(uniqueId));
+  const handleClose = (): void => {
+    dispatch(removeIngredient(uniqueId));
+  };
 
   return (
     <div

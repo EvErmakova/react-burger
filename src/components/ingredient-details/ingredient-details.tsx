@@ -1,15 +1,17 @@
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import { useAppSelector } from '@services/hooks';
 import { getIngredients } from '@services/ingredients/slice';
 
 import { NUTRITION } from './constants';
 
+import type { FC } from 'react';
+
 import styles from './ingredient-details.module.css';
 
-export const IngredientDetails = () => {
+export const IngredientDetails: FC = () => {
   const { id } = useParams();
-  const ingredient = useSelector(getIngredients).find(
+  const ingredient = useAppSelector(getIngredients).find(
     (ingredient) => ingredient._id === id
   );
 

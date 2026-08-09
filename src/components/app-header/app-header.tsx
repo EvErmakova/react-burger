@@ -8,9 +8,11 @@ import { Link } from 'react-router-dom';
 
 import { HeaderMenuItem } from '@components/header-menu-item/header-menu-item';
 
+import type { FC } from 'react';
+
 import styles from './app-header.module.css';
 
-export const AppHeader = () => {
+export const AppHeader: FC = () => {
   return (
     <header className={styles.header}>
       <nav className={`${styles.menu} p-4`}>

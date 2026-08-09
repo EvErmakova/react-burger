@@ -1,16 +1,22 @@
 import { Counter, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
-import { memo } from 'react';
+import { memo, useRef } from 'react';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
 
 import { getIngredientCount } from '@services/burger-constructor/slice';
+import { useAppSelector } from '@services/hooks';
 import { DND_TYPES } from '@utils/constants';
+
+import type { FC } from 'react';
+
+import type { TIngredientCardProps } from './types';
 
 import styles from './card.module.css';
 
-const Card = ({ ingredient, onClick }) => {
+const Card: FC<TIngredientCardProps> = ({ ingredient, onClick }) => {
   const { image, name, price } = ingredient;
-  const count = useSelector((state) => getIngredientCount(state, ingredient._id));
+  const count = useAppSelector((state) => getIngredientCount(state, ingredient._id));
+
+  const cardRef = useRef<HTMLButtonElement>(null);
 
   const [{ isDragging }, dragRef] = useDrag({
     type: DND_TYPES.INGREDIENT,
@@ -20,9 +26,11 @@ const Card = ({ ingredient, onClick }) => {
     }),
   });
 
+  dragRef(cardRef);
+
   return (
     <button
-      ref={dragRef}
+      ref={cardRef}
       type="button"
       className={`${styles.card} ${isDragging ? styles.dragging : ''}`}
       onClick={() => onClick(ingredient)}

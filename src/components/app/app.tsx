@@ -1,6 +1,5 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { AppHeader } from '@components/app-header/app-header';
@@ -18,15 +17,18 @@ import { Profile } from '@pages/profile/profile';
 import { Register } from '@pages/register/register';
 import { ResetPassword } from '@pages/reset-password/reset-password';
 import { checkUserAuth } from '@services/auth/actions';
+import { useAppDispatch, useAppSelector } from '@services/hooks';
 import { fetchIngredients } from '@services/ingredients/actions';
 import { getIngredientsError, getIngredientsLoading } from '@services/ingredients/slice';
 
+import type { FC } from 'react';
+
 import styles from './app.module.css';
 
-export const App = () => {
-  const dispatch = useDispatch();
-  const isLoading = useSelector(getIngredientsLoading);
-  const error = useSelector(getIngredientsError);
+export const App: FC = () => {
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(getIngredientsLoading);
+  const error = useAppSelector(getIngredientsError);
 
   const location = useLocation();
   const backgroundLocation = location.state?.backgroundLocation;

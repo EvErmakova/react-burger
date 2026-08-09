@@ -2,9 +2,13 @@ import { Tab } from '@krgaa/react-developer-burger-ui-components';
 
 import { INGREDIENT_TABS } from '@utils/constants';
 
+import type { FC } from 'react';
+
+import type { TTabsProps } from './types';
+
 import styles from './tabs.module.css';
 
-export const Tabs = ({ activeTab, onTabChange }) => {
+export const Tabs: FC<TTabsProps> = ({ activeTab, onTabChange }) => {
   return (
     <nav>
       <ul className={styles.tabs}>

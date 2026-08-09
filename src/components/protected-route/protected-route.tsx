@@ -1,12 +1,19 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 
 import { getIsAuthChecked, getUser } from '@services/auth/slice';
+import { useAppSelector } from '@services/hooks';
 
-export const ProtectedRoute = ({ onlyUnAuth = false, component }) => {
-  const isAuthChecked = useSelector(getIsAuthChecked);
-  const user = useSelector(getUser);
+import type { FC } from 'react';
+
+import type { TProtectedRouteProps } from './types';
+
+export const ProtectedRoute: FC<TProtectedRouteProps> = ({
+  onlyUnAuth = false,
+  component,
+}) => {
+  const isAuthChecked = useAppSelector(getIsAuthChecked);
+  const user = useAppSelector(getUser);
   const location = useLocation();
 
   if (!isAuthChecked) {

@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useAppSelector } from '@services/hooks';
 import { getIngredients } from '@services/ingredients/slice';
 import { INGREDIENT_TABS } from '@utils/constants';
 
@@ -9,17 +9,23 @@ import Card from './components/card/card';
 import { Tabs } from './components/tabs/tabs';
 import { getClosestTab, scrollToHeading } from './helpers';
 
+import type { FC } from 'react';
+
+import type { TIngredient, TIngredientType } from '@utils/types';
+
+import type { THeadingRefs } from './types';
+
 import styles from './burger-ingredients.module.css';
 
-export const BurgerIngredients = () => {
-  const ingredients = useSelector(getIngredients);
+export const BurgerIngredients: FC = () => {
+  const ingredients = useAppSelector(getIngredients);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState(INGREDIENT_TABS[0].value);
+  const [activeTab, setActiveTab] = useState<TIngredientType>(INGREDIENT_TABS[0].value);
 
-  const containerRef = useRef(null);
-  const headingRefs = useRef({});
+  const containerRef = useRef<HTMLDivElement>(null);
+  const headingRefs = useRef<THeadingRefs>({});
 
   const ingredientsByType = useMemo(
     () =>
@@ -30,19 +36,19 @@ export const BurgerIngredients = () => {
     [ingredients]
   );
 
-  function handleTabChange(tab) {
+  function handleTabChange(tab: TIngredientType): void {
     setActiveTab(tab);
     scrollToHeading(containerRef.current, headingRefs.current[tab]);
   }
 
-  function handleScroll() {
+  function handleScroll(): void {
     if (containerRef.current) {
       setActiveTab(getClosestTab(containerRef.current, headingRefs.current));
     }
   }
 
   const handleCardClick = useCallback(
-    (ingredient) => {
+    (ingredient: TIngredient) => {
       navigate(`/ingredients/${ingredient._id}`, {
         state: { backgroundLocation: location },
       });

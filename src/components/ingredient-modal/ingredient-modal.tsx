@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { Modal } from '@components/modal/modal';
 
-export const IngredientModal = () => {
+import type { FC } from 'react';
+
+export const IngredientModal: FC = () => {
   const navigate = useNavigate();
 
-  function handleClose() {
+  function handleClose(): void {
     navigate(-1);
   }
 

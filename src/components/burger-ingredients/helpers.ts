@@ -1,9 +1,16 @@
 import { INGREDIENT_TABS } from '@utils/constants';
 
-const getTopOffset = (element, container) =>
+import type { TIngredientType } from '@utils/types';
+
+import type { THeadingRefs } from './types';
+
+const getTopOffset = (element: HTMLElement, container: HTMLElement): number =>
   element.getBoundingClientRect().top - container.getBoundingClientRect().top;
 
-export const scrollToHeading = (container, heading) => {
+export const scrollToHeading = (
+  container: HTMLElement | null,
+  heading: HTMLElement | null | undefined
+): void => {
   if (!container || !heading) {
     return;
   }
@@ -14,7 +21,10 @@ export const scrollToHeading = (container, heading) => {
   });
 };
 
-export const getClosestTab = (container, headings) => {
+export const getClosestTab = (
+  container: HTMLElement,
+  headings: THeadingRefs
+): TIngredientType => {
   let closestTab = INGREDIENT_TABS[0].value;
   let minDistance = Infinity;
 

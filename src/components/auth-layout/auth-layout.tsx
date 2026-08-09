@@ -1,6 +1,15 @@
+import type { FC } from 'react';
+
+import type { TAuthLayoutProps } from './types';
+
 import styles from './auth-layout.module.css';
 
-export const AuthLayout = ({ title, onSubmit, children, footer }) => {
+export const AuthLayout: FC<TAuthLayoutProps> = ({
+  title,
+  onSubmit,
+  children,
+  footer,
+}) => {
   return (
     <div className={styles.container}>
       <h1 className="text text_type_main-medium">{title}</h1>
