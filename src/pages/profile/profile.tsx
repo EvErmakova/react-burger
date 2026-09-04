@@ -15,7 +15,9 @@ export const Profile: FC = () => {
       <nav className={styles.nav}>
         <ProfileNavigation hint={hint} />
       </nav>
-      <Outlet context={{ setHint }} />
+      <div className={styles.content}>
+        <Outlet context={{ setHint }} />
+      </div>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import type {
   TIngredient,
   TIngredientsResponse,
   TLoginForm,
+  TOrderByIdResponse,
   TOrderResponse,
   TRegisterForm,
   TRequestOptions,
@@ -122,6 +123,9 @@ export const createOrder = (ingredientIds: string[]): Promise<TOrderResponse> =>
     },
     body: JSON.stringify({ ingredients: ingredientIds }),
   });
+
+export const getOrderById = (id: string): Promise<TOrderByIdResponse> =>
+  request<TOrderByIdResponse>(`orders/${id}`);
 
 export const register = ({
   email,

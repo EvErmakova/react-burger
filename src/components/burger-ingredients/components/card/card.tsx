@@ -1,7 +1,8 @@
-import { Counter, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
+import { Counter } from '@krgaa/react-developer-burger-ui-components';
 import { memo, useRef } from 'react';
 import { useDrag } from 'react-dnd';
 
+import { Price } from '@components/price/price';
 import { getIngredientCount } from '@services/burger-constructor/slice';
 import { useAppSelector } from '@services/hooks';
 import { DND_TYPES } from '@utils/constants';
@@ -36,10 +37,7 @@ const Card: FC<TIngredientCardProps> = ({ ingredient, onClick }) => {
       onClick={() => onClick(ingredient)}
     >
       <img src={image} className={`${styles.image} ml-4 mr-4 mb-2`} alt={name} />
-      <p className={`${styles.price} text text_type_digits-default mb-2`}>
-        {price}
-        <CurrencyIcon type="primary" />
-      </p>
+      <Price price={String(price)} className={`${styles.price} mb-2`} />
       <p className={`${styles.name} text text_type_main-default`}>{name}</p>
       {count > 0 && <Counter extraClass={styles.counter} count={count} size="default" />}
     </button>

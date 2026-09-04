@@ -67,3 +67,22 @@ export type TOrderResponse = TServerResponse<{
   name: string;
   order: { number: number };
 }>;
+
+export type TOrderStatus = 'created' | 'pending' | 'done';
+
+export type TOrder = {
+  _id: string;
+  ingredients: string[];
+  status: TOrderStatus;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+};
+
+export type TOrderByIdResponse = TServerResponse<{ order: TOrder }>;
+
+export type TCountedIngredient = {
+  ingredient: TIngredient;
+  count: number;
+};

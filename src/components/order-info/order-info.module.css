@@ -1,0 +1,32 @@
+.error {
+  color: var(--colors-interface-error);
+}
+
+.subtitle {
+  margin: 0 0 24px;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 312px;
+  margin: 0;
+  padding-left: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.ingredient {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}

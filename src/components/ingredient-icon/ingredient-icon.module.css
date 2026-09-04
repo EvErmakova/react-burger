@@ -1,0 +1,28 @@
+.icon {
+  position: relative;
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+  padding: 2px;
+  background: linear-gradient(63.18deg, #801ab3, #4c4cff);
+  border-radius: 50%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.counter {
+  position: absolute;
+  inset: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(28 28 33 / 60%);
+  border-radius: 50%;
+}

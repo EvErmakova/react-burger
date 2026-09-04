@@ -22,9 +22,9 @@ export const IngredientDetails: FC = () => {
   const { image_large, name } = ingredient;
 
   return (
-    <>
+    <div className={styles.details}>
       <img src={image_large} alt={name} className={`${styles.image} mb-4`} />
-      <p className={`${styles.name} text text_type_main-medium mb-8`}>{name}</p>
+      <p className="text text_type_main-medium mb-8">{name}</p>
       <ul className={styles.nutrition}>
         {NUTRITION.map(({ key, label }) => (
           <li key={key} className={`${styles.nutrient} text text_color_inactive`}>
@@ -33,6 +33,6 @@ export const IngredientDetails: FC = () => {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 };

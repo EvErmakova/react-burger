@@ -1,0 +1,31 @@
+.card {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  color: inherit;
+  background-color: var(--background);
+  border-radius: var(--common-border-radius-s);
+  transition: var(--common-transition);
+}
+
+.card:hover {
+  opacity: 0.8;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  margin: 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}

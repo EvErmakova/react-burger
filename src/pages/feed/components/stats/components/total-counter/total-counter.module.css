@@ -1,0 +1,15 @@
+.counter {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+}
+
+.total {
+  margin: 0;
+  text-shadow:
+    0 4px 32px rgb(51 51 255 / 50%),
+    0 0 8px rgb(51 51 255 / 25%);
+}

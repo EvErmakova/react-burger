@@ -1,4 +1,4 @@
-import type { TIngredientTab, TIngredientType } from '@utils/types';
+import type { TIngredientTab, TIngredientType, TOrderStatus } from '@utils/types';
 
 export const BASE_URL = 'https://new-stellarburgers.education-services.ru/api';
 
@@ -18,3 +18,17 @@ export const INGREDIENT_TABS: TIngredientTab[] = [
   { value: INGREDIENT_TYPES.SAUCE, title: 'Соусы' },
   { value: INGREDIENT_TYPES.MAIN, title: 'Начинки' },
 ];
+
+export const ORDER_STATUSES = {
+  CREATED: 'created',
+  PENDING: 'pending',
+  DONE: 'done',
+} satisfies Record<string, TOrderStatus>;
+
+export const ORDER_STATUS_LABELS: Record<TOrderStatus, string> = {
+  [ORDER_STATUSES.CREATED]: 'Создан',
+  [ORDER_STATUSES.PENDING]: 'Готовится',
+  [ORDER_STATUSES.DONE]: 'Выполнен',
+};
+
+export const MAX_VISIBLE_INGREDIENTS = 6;

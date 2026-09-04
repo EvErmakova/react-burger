@@ -1,17 +1,18 @@
+.details {
+  text-align: center;
+}
+
 .image {
   display: block;
   width: 480px;
   max-width: 100%;
-}
-
-.name {
-  text-align: center;
+  margin: 0 auto;
 }
 
 .nutrition {
   display: flex;
+  justify-content: center;
   gap: 20px;
-  margin: 0;
   padding: 0;
   list-style: none;
 }
