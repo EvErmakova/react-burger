@@ -47,7 +47,7 @@ export const App: FC = () => {
       <main className={`${styles.main} pl-5 pr-5 pb-10`}>
         {isLoading && <Preloader />}
         {error && (
-          <p className={`${styles.error} text text_type_main-default mt-10`}>
+          <p className="text text_type_main-default text_color_error mt-10">
             Не удалось загрузить ингредиенты: {error}
           </p>
         )}

@@ -39,7 +39,7 @@ export const OrderInfo: FC<TOrderInfoProps> = ({ order, isLoading, error }) => {
 
   if (error || !order) {
     return (
-      <p className={`${styles.error} text text_type_main-default`}>
+      <p className="text text_type_main-default text_color_error">
         {error ? `Не удалось загрузить заказ: ${error}` : 'Заказ не найден'}
       </p>
     );

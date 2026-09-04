@@ -82,6 +82,12 @@ export type TOrder = {
 
 export type TOrderByIdResponse = TServerResponse<{ order: TOrder }>;
 
+export type TFeedResponse = TServerResponse<{
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+}>;
+
 export type TCountedIngredient = {
   ingredient: TIngredient;
   count: number;
