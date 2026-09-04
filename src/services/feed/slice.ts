@@ -1,6 +1,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { ORDER_STATUSES } from '@utils/constants';
+import { isDisplayableOrder } from '@utils/helpers';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 
@@ -34,7 +35,7 @@ export const feedSlice = createSlice({
         return;
       }
 
-      state.orders = orders;
+      state.orders = orders.filter(isDisplayableOrder);
       state.total = total;
       state.totalToday = totalToday;
       state.isLoaded = true;

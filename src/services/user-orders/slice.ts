@@ -1,5 +1,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 
+import { isDisplayableOrder } from '@utils/helpers';
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import type { TUserOrdersResponse } from '@utils/types';
@@ -28,7 +30,7 @@ export const userOrdersSlice = createSlice({
         return;
       }
 
-      state.orders = action.payload.orders;
+      state.orders = action.payload.orders.filter(isDisplayableOrder);
       state.isLoaded = true;
       state.error = null;
     },
