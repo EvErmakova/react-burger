@@ -5,7 +5,7 @@ import { OrdersList } from '@components/orders-list/orders-list';
 import { connectFeed, disconnectFeed } from '@services/feed/actions';
 import { getFeedError, getFeedLoaded, getFeedOrders } from '@services/feed/slice';
 import { useAppDispatch, useAppSelector } from '@services/hooks';
-import { WS_FEED_URL } from '@utils/constants';
+import { FEED_SOCKET_URL } from '@utils/constants';
 
 import { Stats } from './components/stats/stats';
 
@@ -20,7 +20,7 @@ export const Feed: FC = () => {
   const error = useAppSelector(getFeedError);
 
   useEffect(() => {
-    dispatch(connectFeed(WS_FEED_URL));
+    dispatch(connectFeed(FEED_SOCKET_URL));
 
     return (): void => {
       dispatch(disconnectFeed());

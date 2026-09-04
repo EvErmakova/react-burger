@@ -1,8 +1,14 @@
 import type { TIngredientTab, TIngredientType, TOrderStatus } from '@utils/types';
 
-export const BASE_URL = 'https://new-stellarburgers.education-services.ru/api';
+const API_HOST = 'new-stellarburgers.education-services.ru';
 
-export const WS_FEED_URL = 'wss://new-stellarburgers.education-services.ru/orders/all';
+export const API_URL = `https://${API_HOST}/api`;
+
+export const FEED_SOCKET_URL = `wss://${API_HOST}/orders/all`;
+
+export const USER_ORDERS_SOCKET_URL = `wss://${API_HOST}/orders`;
+
+export const INVALID_TOKEN_MESSAGE = 'Invalid or missing token';
 
 export const RECONNECT_DELAY = 3000;
 

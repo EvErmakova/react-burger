@@ -88,6 +88,13 @@ export type TFeedResponse = TServerResponse<{
   totalToday: number;
 }>;
 
+export type TSocketErrorResponse = {
+  success: false;
+  message: string;
+};
+
+export type TUserOrdersResponse = TFeedResponse | TSocketErrorResponse;
+
 export type TCountedIngredient = {
   ingredient: TIngredient;
   count: number;

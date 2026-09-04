@@ -1,4 +1,4 @@
-import { BASE_URL } from '@utils/constants';
+import { API_URL, USER_ORDERS_SOCKET_URL } from '@utils/constants';
 
 import type {
   TAuthResponse,
@@ -37,7 +37,7 @@ const request = <T extends { success: boolean }>(
   endpoint: string,
   options?: TRequestOptions
 ): Promise<T> =>
-  fetch(`${BASE_URL}/${endpoint}`, options)
+  fetch(`${API_URL}/${endpoint}`, options)
     .then((res) => checkResponse<T>(res))
     .then(checkSuccess);
 
@@ -51,6 +51,9 @@ export const setTokens = ({ accessToken, refreshToken }: TTokens): void => {
   localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
   localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
 };
+
+export const getUserOrdersSocketUrl = (token: string): string =>
+  `${USER_ORDERS_SOCKET_URL}?token=${token.replace('Bearer ', '')}`;
 
 export const clearTokens = (): void => {
   localStorage.removeItem(ACCESS_TOKEN_KEY);

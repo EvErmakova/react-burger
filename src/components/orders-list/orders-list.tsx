@@ -10,7 +10,7 @@ export const OrdersList: FC<TOrdersListProps> = ({
   orders,
   basePath,
   showStatus,
-  className,
+  className = '',
 }) => {
   if (!orders.length) {
     return (
