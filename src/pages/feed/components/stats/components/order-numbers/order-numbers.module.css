@@ -1,0 +1,28 @@
+.board {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.title {
+  margin: 0;
+}
+
+.columns {
+  display: flex;
+  gap: 36px;
+  min-height: 0;
+  margin-top: 24px;
+  overflow-y: auto;
+}
+
+.numbers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}

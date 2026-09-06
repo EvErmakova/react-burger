@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { IngredientModal } from '@components/ingredient-modal/ingredient-modal';
+import { OrderModal } from '@components/order-modal/order-modal';
 import { ProtectedRoute } from '@components/protected-route/protected-route';
 import { Feed } from '@pages/feed/feed';
 import { ForgotPassword } from '@pages/forgot-password/forgot-password';
@@ -11,6 +12,7 @@ import { Home } from '@pages/home/home';
 import { Ingredient } from '@pages/ingredient/ingredient';
 import { Login } from '@pages/login/login';
 import { NotFound } from '@pages/not-found/not-found';
+import { Order } from '@pages/order/order';
 import { ProfileForm } from '@pages/profile/pages/profile-form/profile-form';
 import { ProfileOrders } from '@pages/profile/pages/profile-orders/profile-orders';
 import { Profile } from '@pages/profile/profile';
@@ -45,7 +47,7 @@ export const App: FC = () => {
       <main className={`${styles.main} pl-5 pr-5 pb-10`}>
         {isLoading && <Preloader />}
         {error && (
-          <p className={`${styles.error} text text_type_main-default mt-10`}>
+          <p className="text text_type_main-default text_color_error mt-10">
             Не удалось загрузить ингредиенты: {error}
           </p>
         )}
@@ -55,6 +57,7 @@ export const App: FC = () => {
             <Routes location={backgroundLocation || location}>
               <Route path="/" element={<Home />} />
               <Route path="/feed" element={<Feed />} />
+              <Route path="/feed/:id" element={<Order />} />
               <Route
                 path="/login"
                 element={<ProtectedRoute onlyUnAuth component={<Login />} />}
@@ -78,6 +81,10 @@ export const App: FC = () => {
                 <Route index element={<ProfileForm />} />
                 <Route path="orders" element={<ProfileOrders />} />
               </Route>
+              <Route
+                path="/profile/orders/:id"
+                element={<ProtectedRoute component={<Order />} />}
+              />
               <Route path="/ingredients/:id" element={<Ingredient />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
@@ -85,6 +92,11 @@ export const App: FC = () => {
             {backgroundLocation && (
               <Routes>
                 <Route path="/ingredients/:id" element={<IngredientModal />} />
+                <Route path="/feed/:id" element={<OrderModal />} />
+                <Route
+                  path="/profile/orders/:id"
+                  element={<ProtectedRoute component={<OrderModal />} />}
+                />
               </Routes>
             )}
           </>

@@ -23,7 +23,7 @@ export const OrderDetails: FC = () => {
   }
 
   return (
-    <>
+    <div className={styles.details}>
       <p className={`${styles.number} text text_type_digits-large mt-4 mb-8`}>
         {orderNumber}
       </p>
@@ -35,6 +35,6 @@ export const OrderDetails: FC = () => {
       <p className="text text_type_main-default text_color_inactive mb-15">
         Дождитесь готовности на орбитальной станции
       </p>
-    </>
+    </div>
   );
 };

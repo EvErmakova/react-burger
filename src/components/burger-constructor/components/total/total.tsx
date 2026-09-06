@@ -1,9 +1,10 @@
-import { Button, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
+import { Button } from '@krgaa/react-developer-burger-ui-components';
 import { memo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Modal } from '@components/modal/modal';
 import { OrderDetails } from '@components/order-details/order-details';
+import { Price } from '@components/price/price';
 import { useModal } from '@hooks/use-modal/use-modal';
 import { getIsAuthenticated } from '@services/auth/slice';
 import { getOrderIngredients, getTotalPrice } from '@services/burger-constructor/slice';
@@ -44,10 +45,7 @@ const Total: FC = () => {
 
   return (
     <div className={styles.total}>
-      <p className={`${styles.price} text text_type_digits-medium`}>
-        {totalPrice}
-        <CurrencyIcon type="primary" className={styles.currency_icon} />
-      </p>
+      <Price price={String(totalPrice)} size="medium" />
       <Button
         htmlType="button"
         onClick={handleOrder}

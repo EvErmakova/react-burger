@@ -1,5 +1,7 @@
 import { createSelector, createSlice, nanoid } from '@reduxjs/toolkit';
 
+import { createOrder } from '@services/order/actions';
+
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import type { TConstructorIngredient, TIngredient } from '@utils/types';
@@ -47,6 +49,9 @@ export const burgerConstructorSlice = createSlice({
       }
     },
     clearConstructor: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createOrder.fulfilled, () => initialState);
   },
   selectors: {
     getConstructorBun: (state) => state.bun,

@@ -67,3 +67,35 @@ export type TOrderResponse = TServerResponse<{
   name: string;
   order: { number: number };
 }>;
+
+export type TOrderStatus = 'created' | 'pending' | 'done';
+
+export type TOrder = {
+  _id: string;
+  ingredients: string[];
+  status: TOrderStatus;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+};
+
+export type TOrderByIdResponse = TServerResponse<{ order: TOrder }>;
+
+export type TFeedResponse = TServerResponse<{
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+}>;
+
+export type TSocketErrorResponse = {
+  success: false;
+  message: string;
+};
+
+export type TUserOrdersResponse = TFeedResponse | TSocketErrorResponse;
+
+export type TCountedIngredient = {
+  ingredient: TIngredient;
+  count: number;
+};
