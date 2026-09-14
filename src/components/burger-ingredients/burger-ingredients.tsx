@@ -57,7 +57,7 @@ export const BurgerIngredients: FC = () => {
   );
 
   return (
-    <section className={styles.burger_ingredients}>
+    <section className={styles.burger_ingredients} data-testid="burger-ingredients">
       <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
 
       <div

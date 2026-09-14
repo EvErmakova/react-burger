@@ -49,16 +49,20 @@ export const BurgerConstructor: FC = () => {
   dropRef(containerRef);
 
   return (
-    <section className={styles.burger_constructor}>
-      <ul className={styles.ingredients} ref={containerRef}>
-        <li>
+    <section className={styles.burger_constructor} data-testid="burger-constructor">
+      <ul
+        className={styles.ingredients}
+        ref={containerRef}
+        data-testid="constructor-drop-zone"
+      >
+        <li data-testid="constructor-bun-top">
           {selectedBun ? (
             <Card ingredient={selectedBun} type="top" />
           ) : (
             <Placeholder type="top" text="Выберите булки" isHover={isBunHover} />
           )}
         </li>
-        <li className={styles.fillings}>
+        <li className={styles.fillings} data-testid="constructor-fillings">
           {selectedFillings.length > 0 ? (
             <ul className={`${styles.fillings_list} custom-scroll`}>
               {selectedFillings.map((ingredient, index) => (
@@ -71,7 +75,7 @@ export const BurgerConstructor: FC = () => {
             <Placeholder text="Выберите начинку" isHover={isFillingHover} />
           )}
         </li>
-        <li>
+        <li data-testid="constructor-bun-bottom">
           {selectedBun ? (
             <Card ingredient={selectedBun} type="bottom" />
           ) : (

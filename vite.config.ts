@@ -27,6 +27,6 @@ export default defineConfig({
     include: ['src/**/*.test.{ts,tsx}'],
   },
   server: {
-    open: true,
+    open: !process.env.E2E,
   },
 });

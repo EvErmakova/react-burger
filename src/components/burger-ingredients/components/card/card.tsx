@@ -33,6 +33,7 @@ const Card: FC<TIngredientCardProps> = ({ ingredient, onClick }) => {
     <button
       ref={cardRef}
       type="button"
+      data-testid={`ingredient-${ingredient._id}`}
       className={`${styles.card} ${isDragging ? styles.dragging : ''}`}
       onClick={() => onClick(ingredient)}
     >
