@@ -13,7 +13,7 @@ test.describe('Constructor page', () => {
     await mockIngredients(page);
     await mockAuthorizedUser(page);
     await mockCreateOrder(page);
-    await page.goto('/');
+    await page.goto('./');
     await expect(page.getByRole('heading', { name: 'Соберите бургер' })).toBeVisible();
   });
 
@@ -81,7 +81,7 @@ test.describe('Constructor page', () => {
       await expect(modal).toContainText(SAUCE.name);
       await expect(modal).toContainText(String(SAUCE.calories));
       await expect(modal).toContainText(String(SAUCE.proteins));
-      await expect(page).toHaveURL(`/ingredients/${SAUCE._id}`);
+      await expect(page).toHaveURL(new RegExp(`#/ingredients/${SAUCE._id}$`));
     });
 
     test('closes on the close button click', async ({ page }) => {
@@ -91,7 +91,7 @@ test.describe('Constructor page', () => {
       await page.getByRole('button', { name: 'Закрыть' }).click();
 
       await expect(page.getByTestId('modal')).toBeHidden();
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL(/\/react-burger\/(#\/)?$/);
     });
 
     test('closes on the overlay click', async ({ page }) => {
@@ -159,14 +159,14 @@ test.describe('Constructor page', () => {
 test.describe('Constructor page without authentication', () => {
   test('redirects to the login page instead of placing an order', async ({ page }) => {
     await mockIngredients(page);
-    await page.goto('/');
+    await page.goto('./');
 
     await dragToConstructor(page, page.getByTestId(`ingredient-${BUN._id}`));
     await dragToConstructor(page, page.getByTestId(`ingredient-${SAUCE._id}`));
 
     await page.getByRole('button', { name: 'Оформить заказ' }).click();
 
-    await expect(page).toHaveURL('/login');
+    await expect(page).toHaveURL(/#\/login$/);
     await expect(page.getByTestId('modal')).toBeHidden();
   });
 });

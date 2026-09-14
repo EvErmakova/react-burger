@@ -1,13 +1,14 @@
-import { INGREDIENTS, ORDER_NUMBER, USER } from './fixtures';
-
 import type { Locator, Page } from '@playwright/test';
 
 export const ACCESS_TOKEN = 'Bearer test-access-token';
 
+const DROP_ZONE_TEST_ID = 'constructor-drop-zone';
+
 export const mockIngredients = async (page: Page): Promise<void> => {
-  await page.route('**/api/ingredients', (route) =>
-    route.fulfill({ json: { success: true, data: INGREDIENTS } })
-  );
+  await page.routeFromHAR('./e2e/har/ingredients.har', {
+    url: '**/api/ingredients',
+    update: false,
+  });
 };
 
 export const mockAuthorizedUser = async (page: Page): Promise<void> => {
@@ -16,35 +17,41 @@ export const mockAuthorizedUser = async (page: Page): Promise<void> => {
     window.localStorage.setItem('refreshToken', 'test-refresh-token');
   }, ACCESS_TOKEN);
 
-  await page.route('**/api/auth/user', (route) =>
-    route.fulfill({ json: { success: true, user: USER } })
-  );
+  await page.routeFromHAR('./e2e/har/authorized-user.har', {
+    url: '**/api/auth/user',
+    update: false,
+  });
 };
 
 export const mockCreateOrder = async (page: Page): Promise<void> => {
-  await page.route('**/api/orders', (route) =>
-    route.fulfill({
-      json: {
-        success: true,
-        name: 'Космический бургер',
-        order: { number: ORDER_NUMBER },
-      },
-    })
-  );
+  await page.routeFromHAR('./e2e/har/create-order.har', {
+    url: '**/api/orders',
+    update: false,
+  });
 };
 
 export const dragToConstructor = async (page: Page, card: Locator): Promise<void> => {
-  const dropZone = page.getByTestId('constructor-drop-zone');
+  await card.waitFor();
+  await page.getByTestId(DROP_ZONE_TEST_ID).waitFor();
 
-  await card.hover();
-  await page.mouse.down();
+  await card.evaluate((source, dropZoneTestId) => {
+    const target = document.querySelector(`[data-testid="${dropZoneTestId}"]`);
 
-  const box = await dropZone.boundingBox();
+    if (!target) {
+      throw new Error('Constructor drop zone is not on the page');
+    }
 
-  if (!box) {
-    throw new Error('Constructor drop zone is not on the page');
-  }
+    const dataTransfer = new DataTransfer();
+    const fire = (element: Element, type: string): void => {
+      element.dispatchEvent(
+        new DragEvent(type, { bubbles: true, cancelable: true, dataTransfer })
+      );
+    };
 
-  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 10 });
-  await page.mouse.up();
+    fire(source, 'dragstart');
+    fire(target, 'dragenter');
+    fire(target, 'dragover');
+    fire(target, 'drop');
+    fire(source, 'dragend');
+  }, DROP_ZONE_TEST_ID);
 };

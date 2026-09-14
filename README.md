@@ -1,5 +1,11 @@
 # Стартер на JavaScript для проекта Stellar Burger
 
+## Деплой
+
+Приложение опубликовано на GitHub Pages: [https://evermakova.github.io/react-burger/](https://evermakova.github.io/react-burger/)
+
+Для публикации выполните `npm run deploy` — сборка соберётся командой `predeploy` и уедет в ветку `gh-pages`.
+
 ## Процедура создания коммита с проверками
 
 При создании коммита автоматически запускаются проверка линтерами `stylelint`, `eslint` и форматирование `prettier`.
