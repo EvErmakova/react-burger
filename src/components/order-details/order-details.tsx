@@ -24,7 +24,10 @@ export const OrderDetails: FC = () => {
 
   return (
     <div className={styles.details}>
-      <p className={`${styles.number} text text_type_digits-large mt-4 mb-8`}>
+      <p
+        className={`${styles.number} text text_type_digits-large mt-4 mb-8`}
+        data-testid="order-number"
+      >
         {orderNumber}
       </p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
